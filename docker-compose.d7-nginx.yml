@@ -1,0 +1,29 @@
+version: '2'
+services:
+  web:
+    image: ten7/drupal-stack-nginx
+    ports:
+      - "80:80"
+    volumes_from:
+      - php
+    depends_on:
+      - php
+    environment:
+      DRUPAL_VERSION: 7
+    env_file:
+      - .env
+  php:
+    image: ten7/drupal-stack-php:5.6
+    volumes:
+      - ./src:/var/www/html
+    env_file:
+      - .env
+  db:
+    image: ten7/drupal-stack-db:latest
+    ports:
+      - 3306:3306
+    volumes:
+      - /var/lib/mysql
+      - ./db-backups:/tmp/db-backups
+    env_file:
+      - .env
