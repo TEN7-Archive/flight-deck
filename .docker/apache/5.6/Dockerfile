@@ -20,6 +20,7 @@ RUN apk add --update --no-cache \
             php5-xml \
             php5-ctype \
             php5-imagick \
+            mariadb-client \
     && rm -f /var/cache/apk/*
 
 # Install composer

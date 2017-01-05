@@ -1,7 +1,7 @@
 version: '2'
 services:
   web:
-    image: ten7/drupal-stack-nginx
+    image: ten7/dockstack-nginx
     ports:
       - "80:80"
     volumes_from:
@@ -13,13 +13,13 @@ services:
     env_file:
       - .env
   php:
-    image: ten7/drupal-stack-php:5.6
+    image: ten7/dockstack-php:5.6
     volumes:
       - ./src:/var/www/html
     env_file:
       - .env
   db:
-    image: ten7/drupal-stack-db:latest
+    image: ten7/dockstack-db:latest
     ports:
       - 3306:3306
     volumes:
