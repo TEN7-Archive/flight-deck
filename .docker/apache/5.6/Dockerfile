@@ -1,8 +1,8 @@
 FROM alpine
 MAINTAINER tess@ten7.com
 
-RUN apk update && \
-    apk add --no-cache \
+# Install Apache and PHP.
+RUN apk add --update --no-cache \
             apache2 \
             php5-apache2 \
             curl \
@@ -18,11 +18,22 @@ RUN apk update && \
             php5-xdebug \
             php5-dom \
             php5-xml \
+            php5-ctype \
+            php5-imagick \
     && rm -f /var/cache/apk/*
 
-# Need Imagemagik, drush, compass
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
-# RUN usermod -u 1000 apache
+# Install drush
+RUN composer global require drush/drush && \
+    ln -s /root/.composer/vendor/bin/drush /usr/bin/drush
+
+# Install compass. We uninstall build dependencies afterwards to save space.
+RUN apk add --update build-base libffi-dev ruby ruby-dev \
+        && gem install sass compass --no-ri --no-rdoc \
+        && apk del build-base libffi-dev ruby-dev \
+        && rm -rf /var/cache/apk/*
 
 COPY httpd.conf /etc/apache2/httpd.conf
 
