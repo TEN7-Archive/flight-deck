@@ -8,10 +8,11 @@ Many of the containers are based on Wodby's excellent [Docker4Drupal project](ht
 
 ## Library
 
-| Container | Service name | Tags | Public Port |
-| --------- | ------------ | --------------- | ----------- |
-| [ten7/dockstack-php-apache](https://hub.docker.com/r/ten7/dockstack-php-apache/) | web | 5.6 | 80 |
-| [ten7/dockstack-mysql](https://hub.docker.com/r/ten7/dockstack-mysql/) | db | latest | 3306 |
+| Container | Service name | Tags | Public Port | Supports Drupal |
+| --------- | ------------ | ---- | ----------- | --------------- |
+| [ten7/dockstack-php-apache](https://hub.docker.com/r/ten7/dockstack-php-apache/) | web | 5.6 | 80 | 6, 7 |
+| [ten7/dockstack-php-apache](https://hub.docker.com/r/ten7/dockstack-php-apache/) | web | 7.0 | 80 | 8 |
+| [ten7/dockstack-mysql](https://hub.docker.com/r/ten7/dockstack-mysql/) | db | latest | 3306 | all |
 
 ## Support
 

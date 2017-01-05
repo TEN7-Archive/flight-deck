@@ -1,0 +1,14 @@
+version: '2'
+services:
+  web:
+    build: apache/7.0
+    ports:
+      - "80:80"
+    env_file:
+      - ../.env
+  db:
+    build: db
+    ports:
+      - 3306:3306
+    env_file:
+      - ../.env
