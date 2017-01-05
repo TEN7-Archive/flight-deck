@@ -15,13 +15,20 @@ RUN apk add --update --no-cache \
             php5-pdo \
             php5-pdo_mysql \
             php5-pdo_sqlite \
+            php5-mysql \
+            php5-mysqli \
             php5-xdebug \
             php5-dom \
             php5-xml \
             php5-ctype \
             php5-imagick \
+            php5-ldap \
             mariadb-client \
     && rm -f /var/cache/apk/*
+
+# forward request and error logs to docker log collector
+RUN ln -sf /dev/stdout /var/log/apache2/access.log \
+    && ln -sf /dev/stderr /var/log/apache2/error.log
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer

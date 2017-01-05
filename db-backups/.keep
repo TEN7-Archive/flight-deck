@@ -1,0 +1,3 @@
+# Dockstack expects you to put database dumps here
+
+# They must be UNCOMPRESSED with a *.sql extension to be auto imported.

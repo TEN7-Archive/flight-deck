@@ -6,9 +6,14 @@ services:
       - "80:80"
     env_file:
       - .env
+    volumes:
+      - ./src:/var/www/html
   db:
     image: ten7/dockstack-mysql
     ports:
       - 3306:3306
     env_file:
       - .env
+    volumes:
+      - /var/lib/mysql
+      - ./db-backups:/tmp/db-backups
