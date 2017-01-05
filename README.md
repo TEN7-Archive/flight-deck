@@ -20,4 +20,4 @@ You can always [post an issue](https://github.com/ten7/dockstack/issues/new) on 
 
 ## License
 
-See LICENSE.
+See [LICENSE](https://raw.githubusercontent.com/ten7/dockstack/master/LICENSE).

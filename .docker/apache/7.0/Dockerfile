@@ -23,6 +23,7 @@ RUN apk add --update --no-cache \
             php7-ldap \
           	php7-session \
             php7-opcache \
+            php7-zlib \
             mariadb-client \
     && ln -s /usr/bin/php7 /usr/bin/php \
     && rm -f /var/cache/apk/*
@@ -37,6 +38,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 # Install drush
 RUN composer global require drush/drush && \
     ln -s /root/.composer/vendor/bin/drush /usr/bin/drush
+
+# Install Drupal console
+RUN curl https://drupalconsole.com/installer -L -o /usr/bin/drupal && \
+    chmod 777 /usr/bin/drupal
 
 # Install compass. We uninstall build dependencies afterwards to save space.
 RUN apk add --update build-base libffi-dev ruby ruby-dev \
