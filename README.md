@@ -15,6 +15,9 @@ Many of the containers are based on Wodby's excellent [Docker4Drupal project](ht
 | [ten7/dockstack-mysql](https://hub.docker.com/r/ten7/dockstack-mysql/) | db | latest | 3306 | all |
 | [phpmyadmin/phpmyadmin](https://hub.docker.com/r/phpmyadmin/phpmyadmin/) | pma | latest | 8001 | all |
 | [mailhog/mailhog](https://hub.docker.com/r/mailhog/mailhog/) | mailhog | latest | 8002 | all |
+| [_/memcached](https://hub.docker.com/_/memcached/) | memcached | latest |   | all |
+| [wodby/drupal-varnish](https://hub.docker.com/wodby/drupal-varnish/) | varnish | 1.0.0 | 8004, 8005 | all |
+| [wodby/solr](https://hub.docker.com/wodby/solr/) | solr | 5.5-1.0.0 | 8003 | all |
 
 ## Support
 

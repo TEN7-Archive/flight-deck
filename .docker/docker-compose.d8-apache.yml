@@ -12,6 +12,8 @@ services:
       - 3306:3306
     env_file:
       - .env
+  memcached:
+    image: memcached:1.4-alpine
   pma:
     image: phpmyadmin/phpmyadmin
     environment:
@@ -28,3 +30,18 @@ services:
     image: mailhog/mailhog
     ports:
       - "8002:8025"
+  solr:
+    image: wodby/solr:5.5-1.0.0
+    env_file:
+      - .env
+    ports:
+      - "8003:8983"
+  varnish:
+    image: wodby/drupal-varnish:1.0.0
+    depends_on:
+      - web
+    env_file:
+      - .env
+    ports:
+      - "8004:6081" # HTTP Proxy
+      - "8005:6082" # Control terminal
