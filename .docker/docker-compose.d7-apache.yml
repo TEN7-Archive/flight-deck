@@ -12,3 +12,19 @@ services:
       - 3306:3306
     env_file:
       - ../.env
+  pma:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      PHP_UPLOAD_MAX_FILESIZE: 1G
+      PHP_MAX_INPUT_VARS: 1G
+    ports:
+     - "8001:80"
+    env_file:
+     - ../.env
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8002:8025"
