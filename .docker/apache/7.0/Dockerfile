@@ -52,8 +52,10 @@ RUN apk add --update build-base libffi-dev ruby ruby-dev \
 # Copy the Apache configuration file.
 COPY httpd.conf /etc/apache2/httpd.conf
 
-# Copy the PHP configuration file.
-COPY php.ini /etc/php7/php.ini
+# Copy PHP configuration files.
+COPY php.ini /etc/php7/
+COPY 00_opcache.ini /etc/php7/conf.d/
+COPY xdebug.ini /etc/php7/conf.d/
 
 # Add and chmod our run scripts.
 COPY run.sh /scripts/run.sh

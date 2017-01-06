@@ -23,6 +23,7 @@ RUN apk add --update --no-cache \
             php5-ctype \
             php5-imagick \
             php5-ldap \
+            php5-opcache \
             mariadb-client \
     && rm -f /var/cache/apk/*
 
@@ -46,8 +47,10 @@ RUN apk add --update build-base libffi-dev ruby ruby-dev \
 # Copy the Apache configuration file.
 COPY httpd.conf /etc/apache2/httpd.conf
 
-# Copy the PHP configuration file.
-COPY php.ini /etc/php7/php.ini
+# Copy PHP configuration files.
+COPY php.ini /etc/php5/
+COPY opcache.ini /etc/php5/conf.d/
+COPY xdebug.ini /etc/php5/conf.d/
 
 # Add and chmod our run scripts.
 COPY run.sh /scripts/run.sh
