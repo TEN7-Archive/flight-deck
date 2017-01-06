@@ -24,6 +24,8 @@ RUN apk add --update --no-cache \
             php5-imagick \
             php5-ldap \
             php5-opcache \
+            php5-memcache \
+            php5-sockets \
             mariadb-client \
     && rm -f /var/cache/apk/*
 
