@@ -49,8 +49,9 @@ RUN apk add --update build-base libffi-dev ruby ruby-dev \
         && apk del build-base libffi-dev ruby-dev \
         && rm -rf /var/cache/apk/*
 
-# Copy the Apache configuration file.
+# Copy the Apache configuration files.
 COPY httpd.conf /etc/apache2/httpd.conf
+COPY 000_default.conf /etc/apache2/sites.d/
 
 # Copy PHP configuration files.
 COPY php.ini /etc/php7/
