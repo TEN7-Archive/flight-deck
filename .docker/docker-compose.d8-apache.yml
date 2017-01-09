@@ -37,7 +37,7 @@ services:
     ports:
       - "8003:8983"
   varnish:
-    image: wodby/drupal-varnish:1.0.0
+    build: varnish/4.0
     depends_on:
       - web
     env_file:
