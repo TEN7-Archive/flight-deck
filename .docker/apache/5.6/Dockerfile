@@ -60,4 +60,6 @@ RUN chmod -R 755 /scripts
 
 EXPOSE 80
 
+WORKDIR /var/www/html
+
 CMD ["/scripts/run.sh"]
