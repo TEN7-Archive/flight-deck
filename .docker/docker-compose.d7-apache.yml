@@ -31,7 +31,7 @@ services:
     ports:
       - "8002:8025"
   solr:
-    image: wodby/solr:5.5-1.0.0
+    build: solr/5.5
     env_file:
       - .env
     ports:
