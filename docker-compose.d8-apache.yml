@@ -36,7 +36,7 @@ services:
   #   ports:
   #     - "8002:8025"
   # solr:
-  #   image: ten/dockstack-solr:5.5
+  #   image: ten7/dockstack-solr:5.5
   #   env_file:
   #     - .env
   #   ports:
