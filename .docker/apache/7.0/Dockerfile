@@ -6,7 +6,9 @@ RUN apk add --update --no-cache \
             apache2 \
             php7-apache2 \
             php7 \
+            git \
             curl \
+            php7-curl \
             php7-mcrypt \
             php7-gd \
             php7-json \
@@ -24,6 +26,7 @@ RUN apk add --update --no-cache \
           	php7-session \
             php7-opcache \
             php7-zlib \
+            php7-zip \
             mariadb-client \
     && ln -s /usr/bin/php7 /usr/bin/php \
     && rm -f /var/cache/apk/*
