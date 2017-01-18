@@ -6,6 +6,8 @@ RUN apk add --update --no-cache \
             apache2 \
             php5-apache2 \
             curl \
+            git \
+            php5-curl \
             php5-cli \
             php5-mcrypt \
             php5-gd \
