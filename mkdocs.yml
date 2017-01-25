@@ -1,0 +1,12 @@
+site_name: Dockstack Documentation
+
+repo_url: https://github.com/ten7/dockstack
+site_description: 'Dockstack – Dockerize your Drupal development'
+theme: readthedocs
+
+markdown_extensions:
+  - toc:
+      permalink: True
+
+pages:
+  - Getting started: 'index.md'
