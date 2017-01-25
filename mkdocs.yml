@@ -9,4 +9,5 @@ markdown_extensions:
       permalink: True
 
 pages:
-  - Getting started: 'index.md'
+  - Introduction: 'index.md'
+  - Getting started: 'gettingStarted.md'
