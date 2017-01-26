@@ -1,6 +1,4 @@
-# Dockerize your Drupal dev environment
-
-[![Documentation Status](https://readthedocs.org/projects/dockstack/badge/?version=latest)](http://dockstack.readthedocs.io/)
+# Dockstack
 
 TEN7's dockstack is a library of containers for local Drupal development.
 Instead of a single "stack to rule them all", dockstack provides a mix-and-match
