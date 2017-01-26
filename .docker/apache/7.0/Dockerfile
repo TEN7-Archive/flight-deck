@@ -1,5 +1,8 @@
-FROM alpine
+FROM alpine:edge
 MAINTAINER tess@ten7.com
+
+# Add the Testing repository.
+RUN echo @testing http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories
 
 # Install Apache and PHP.
 RUN apk add --update --no-cache \
@@ -27,6 +30,7 @@ RUN apk add --update --no-cache \
             php7-opcache \
             php7-zlib \
             php7-zip \
+            php7-memcached@testing \
             mariadb-client \
     && ln -s /usr/bin/php7 /usr/bin/php \
     && rm -f /var/cache/apk/*
