@@ -19,28 +19,28 @@ services:
       - ./db-backups:/tmp/db-backups
   memcached:
     image: memcached:1.4-alpine
-  # pma:
-  #   image: phpmyadmin/phpmyadmin
-  #   environment:
-  #     PMA_HOST: db
-  #     PMA_USER: root
-  #     PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-  #     PHP_UPLOAD_MAX_FILESIZE: 1G
-  #     PHP_MAX_INPUT_VARS: 1G
-  #   ports:
-  #    - "8001:80"
-  #   env_file:
-  #    - .env
-  # mailhog:
-  #   image: mailhog/mailhog
-  #   ports:
-  #     - "8002:8025"
-  # solr:
-  #   image: ten7/dockstack-solr:5.5
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - "8003:8983"
+  pma:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      PHP_UPLOAD_MAX_FILESIZE: 1G
+      PHP_MAX_INPUT_VARS: 1G
+    ports:
+     - "8001:80"
+    env_file:
+     - .env
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8002:8025"
+  solr:
+    image: ten7/dockstack-solr:5.5
+    env_file:
+      - .env
+    ports:
+      - "8003:8983"
   # varnish:
   #   image: ten7/dockstack-varnish:4.0
   #   depends_on:
