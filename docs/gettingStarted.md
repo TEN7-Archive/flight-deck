@@ -37,4 +37,4 @@ Once the proper files have been deployed and the .env file configured, you're re
 2. Open a terminal and change to your project root.
 3. Start Dockstack with the following command: `docker-compose up -d`
 4. Note that the first build will take longer, as container images need to be downloaded from hub.docker.com. Subsequent restarts will be on the order of seconds.
-5. Using a web browser, navigate to `localhost`. 
+5. Using a web browser, navigate to `localhost`.

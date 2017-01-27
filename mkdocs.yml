@@ -11,3 +11,5 @@ markdown_extensions:
 pages:
   - Introduction: 'index.md'
   - Getting started: 'gettingStarted.md'
+  - Creating a URL alias: 'urlAlias.md'
+  - Xdebug: 'xdebug/index.md'
