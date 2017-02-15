@@ -23,5 +23,9 @@ if [ -n "$PHP_XDEBUG_REMOTE_HOST" ]; then
      sed -i 's/^xdebug.remote_host.*/'"xdebug.remote_host = ${PHP_XDEBUG_REMOTE_HOST}"'/' /etc/php5/conf.d/xdebug.ini
 fi
 
+if [ -n "$PHP_XDEBUG_STDOUT_LOGS" -eq "1" ]; then
+  ln -sfn /dev/stdout /var/log/apache2/xdebug.log
+fi
+
 echo "Starting apache..."
 /usr/sbin/httpd -D FOREGROUND -f /etc/apache2/httpd.conf
