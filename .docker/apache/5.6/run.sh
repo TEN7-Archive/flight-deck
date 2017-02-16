@@ -3,6 +3,11 @@
 mkdir -p /run/apache2
 mkdir -p /var/www/html
 
+# Delete the xdebug logs from the previous container run.
+if [ -e "/var/log/apache2/xdebug.log" ]; then
+  rm /var/log/apache2/xdebug.log
+fi 
+
 if [ -n "$PHP_SENDMAIL_PATH" ]; then
      sed -i 's@^;sendmail_path.*@'"sendmail_path = ${PHP_SENDMAIL_PATH}"'@' /etc/php5/php.ini
 fi

@@ -68,3 +68,16 @@ In order for PHPStorm to pick up the remote debugging session, you need to confi
 4. Set the **Host** to the value of `PHP_XDEBUG_REMOTE_HOST` in your `.env` file.
 5. Set the **Port** to the Xdebug default, `9000`.
 6. Click **OK** to save your changes.
+
+## Logging and Troubleshooting
+
+By default, Dockstack stores Xdebug logs at `/var/log/apache2/xdebug.log`. If you ever need to troubleshoot the Xdebug configuration is may be useful to redirect the logs to STDOUT, this makes the logs available with a `docker-compose logs` command.
+
+To enable Xdebug logging to STDOUT:
+
+1. Open the `.env` file for editing.
+2. Uncomment the `PHP_XDEBUG_STDOUT_LOGS` setting, be sure it's set to a value of `1`.
+3. Stop and restart Dockstack.
+4. Use `docker-compose logs` to view the container logs.
+
+When interacting with the **web** container using `docker-compose exec`, you may see the output of Xdebug in your terminal window. This is normal, if annoying, when `PHP_XDEBUG_STDOUT_LOGS` is enabled.
