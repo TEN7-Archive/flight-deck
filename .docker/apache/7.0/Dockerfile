@@ -8,7 +8,7 @@ RUN echo @testing http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/
 RUN apk -U upgrade
 
 RUN apk add --update --no-cache \
-            zlib
+            zlib \
             apache2 \
             php7-apache2 \
             php7 \
