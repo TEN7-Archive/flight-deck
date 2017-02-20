@@ -5,8 +5,10 @@ MAINTAINER tess@ten7.com
 RUN echo @testing http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories
 
 # Install Apache and PHP.
-RUN apk -U upgrade \
-    apk add --update --no-cache \
+RUN apk -U upgrade
+
+RUN apk add --update --no-cache \
+            zlib
             apache2 \
             php7-apache2 \
             php7 \

@@ -2,8 +2,10 @@ FROM alpine
 MAINTAINER tess@ten7.com
 
 # Install Apache and PHP.
-RUN apk -U upgrade \
-    apk add --update --no-cache \
+RUN apk -U upgrade
+
+RUN apk add --update --no-cache \
+            zlib \
             apache2 \
             php5-apache2 \
             curl \
