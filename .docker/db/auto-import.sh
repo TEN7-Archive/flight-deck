@@ -2,6 +2,10 @@
 
 CWD=$( pwd )
 
+if [ "$MYSQL_AUTO_IMPORT" -ne "1" ]; then
+  exit 0
+fi
+
 cd /tmp/db-backups
 LATEST_DUMP=`ls -td *sql* | head -1`
 echo $LATEST_DUMP
