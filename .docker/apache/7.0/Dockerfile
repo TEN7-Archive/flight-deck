@@ -20,6 +20,7 @@ RUN apk -U upgrade \
             php7-openssl \
             php7-pdo \
             php7-pdo_mysql \
+            php7-sqlite3 \
             php7-pdo_sqlite \
             php7-xdebug \
             php7-dom \
