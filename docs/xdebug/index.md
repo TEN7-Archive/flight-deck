@@ -56,7 +56,9 @@ Next, we need to configure the remote server.
 
 ### Linux hosts
 
-For the most part, Dockstack debugging for Linux just works.
+Linux hosts have two ways they may configure Xdebug support.
+* If your `.env` isn't shared between multiple, mixed-OS team members, follow the instructions to use  `PHP_XDEBUG_REMOTE_CONNECT_BACK`.
+* If your `.env` **is** shared, you can define a loopback alias (see the `.env` file for an example). Once finished, continue to the next section.
 
 ### macOS and Windows hosts
 
