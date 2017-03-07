@@ -14,27 +14,28 @@ RUN apk add --update --no-cache \
             php7 \
             git \
             curl \
+            php7-ctype \
             php7-curl \
-            php7-mcrypt \
+            php7-dom \
             php7-gd \
             php7-json \
-            php7-phar \
+            php7-ldap \
+            php7-mbstring \
+            php7-mcrypt \
+            php7-memcached@testing \
+            php7-opcache \
             php7-openssl \
+            php7-phar \
+            php7-session \
+            php7-soap \
+            php7-sqlite3 \
             php7-pdo \
             php7-pdo_mysql \
-            php7-sqlite3 \
             php7-pdo_sqlite \
             php7-xdebug \
-            php7-dom \
-            php7-mbstring \
             php7-xml \
-            php7-ctype \
-            php7-ldap \
-          	php7-session \
-            php7-opcache \
-            php7-zlib \
             php7-zip \
-            php7-memcached@testing \
+            php7-zlib \
             mariadb-client \
     && ln -s /usr/bin/php7 /usr/bin/php \
     && rm -f /var/cache/apk/*

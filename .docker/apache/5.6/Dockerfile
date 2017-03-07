@@ -10,27 +10,28 @@ RUN apk add --update --no-cache \
             php5-apache2 \
             curl \
             git \
-            php5-curl \
             php5-cli \
-            php5-mcrypt \
+            php5-curl \
+            php5-ctype \
+            php5-dom \
             php5-gd \
+            php5-imagick \
             php5-json \
-            php5-phar \
+            php5-ldap \
+            php5-mcrypt \
+            php5-memcache \
+            php5-mysql \
+            php5-mysqli \
+            php5-opcache \
             php5-openssl \
             php5-pdo \
             php5-pdo_mysql \
             php5-pdo_sqlite \
-            php5-mysql \
-            php5-mysqli \
-            php5-xdebug \
-            php5-dom \
-            php5-xml \
-            php5-ctype \
-            php5-imagick \
-            php5-ldap \
-            php5-opcache \
-            php5-memcache \
+            php5-phar \
+            php5-soap \
             php5-sockets \
+            php5-xdebug \
+            php5-xml \
             mariadb-client \
     && rm -f /var/cache/apk/*
 
