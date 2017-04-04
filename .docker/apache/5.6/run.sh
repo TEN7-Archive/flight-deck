@@ -6,7 +6,7 @@ mkdir -p /var/www/html
 # Delete the xdebug logs from the previous container run.
 if [ -e "/var/log/apache2/xdebug.log" ]; then
   rm /var/log/apache2/xdebug.log
-fi 
+fi
 
 if [ -n "$PHP_SENDMAIL_PATH" ]; then
      sed -i 's@^;sendmail_path.*@'"sendmail_path = ${PHP_SENDMAIL_PATH}"'@' /etc/php5/php.ini
@@ -30,6 +30,14 @@ fi
 
 if [ -n "$PHP_XDEBUG_STDOUT_LOGS" -eq "1" ]; then
   ln -sfn /dev/stdout /var/log/apache2/xdebug.log
+fi
+
+if [ -n "$PHP_XDEBUG_PROFILE_TRIGGER" ]; then
+     sed -i 's/^xdebug.profiler_enable_trigger_value =.*/'"xdebug.profiler_enable_trigger_value = ${PHP_XDEBUG_PROFILE_TRIGGER}"'/' /etc/php5/conf.d/xdebug.ini
+fi
+
+if [ "$PHP_XDEBUG_PROFILE_FORCE" -eq "1" ]; then
+     sed -i 's/^xdebug.profiler_enable =.*/xdebug.profiler_enable = 1/' /etc/php5/conf.d/xdebug.ini
 fi
 
 echo "Starting apache..."

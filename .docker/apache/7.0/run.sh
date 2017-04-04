@@ -32,5 +32,13 @@ if [ "$PHP_XDEBUG_STDOUT_LOGS" -eq "1" ]; then
   ln -sfn /dev/stdout /var/log/apache2/xdebug.log
 fi
 
+if [ -n "$PHP_XDEBUG_PROFILE_TRIGGER" ]; then
+     sed -i 's/^xdebug.profiler_enable_trigger_value =.*/'"xdebug.profiler_enable_trigger_value = ${PHP_XDEBUG_PROFILE_TRIGGER}"'/' /etc/php7/conf.d/xdebug.ini
+fi
+
+if [ "$PHP_XDEBUG_PROFILE_FORCE" -eq "1" ]; then
+     sed -i 's/^xdebug.profiler_enable =.*/xdebug.profiler_enable = 1/' /etc/php7/conf.d/xdebug.ini
+fi
+
 echo "Starting apache..."
 /usr/sbin/httpd -D FOREGROUND -f /etc/apache2/httpd.conf
