@@ -35,12 +35,12 @@ services:
     image: mailhog/mailhog
     ports:
       - "8002:8025"
-  solr:
-    image: ten7/dockstack-solr:5.5
-    env_file:
-      - .env
-    ports:
-      - "8003:8983"
+  # solr:
+  #   image: ten7/dockstack-solr:5.5
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - "8003:8983"
   # varnish:
   #   image: ten7/dockstack-varnish:4.0
   #   depends_on:
@@ -50,3 +50,12 @@ services:
   #   ports:
   #     - "8004:6081" # HTTP Proxy
   #     - "8005:6082" # Control terminal
+  #
+  ## Webgrind lets you example XDebug profiling files without kcachegrind.
+  #
+  # webgrind:
+  #   image: clue/webgrind
+  #   ports:
+  #     - "8006:80"
+  #   volumes:
+  #     - ./src:/tmp
