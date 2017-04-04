@@ -3,6 +3,12 @@
 mkdir -p /run/apache2
 mkdir -p /var/www/html
 
+PHP_XDEBUG_ENABLED="${PHP_XDEBUG_ENABLED:-0}"
+PHP_XDEBUG_AUTOSTART="${PHP_XDEBUG_AUTOSTART:-0}"
+PHP_XDEBUG_REMOTE_CONNECT_BACK="${PHP_XDEBUG_REMOTE_CONNECT_BACK:-0}"
+PHP_XDEBUG_STDOUT_LOGS="${PHP_XDEBUG_STDOUT_LOGS:-0}"
+PHP_XDEBUG_PROFILE_FORCE="${PHP_XDEBUG_PROFILE_FORCE:-0}"
+
 # Delete the xdebug logs from the previous container run.
 if [ -e "/var/log/apache2/xdebug.log" ]; then
   rm /var/log/apache2/xdebug.log
