@@ -8,6 +8,7 @@ RUN echo @testing http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/
 RUN apk -U upgrade
 
 RUN apk add --update --no-cache \
+            ansible \
             zlib \
             apache2 \
             php7-apache2 \
@@ -38,8 +39,11 @@ RUN apk add --update --no-cache \
             php7-zip \
             php7-zlib \
             mariadb-client \
+            rsync \
+            openssh-client \
     && ln -s /usr/bin/php7 /usr/bin/php \
-    && rm -f /var/cache/apk/*
+    && rm -rf /tmp/* \
+    && rm -rf /var/cache/apk/*
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/apache2/access.log \

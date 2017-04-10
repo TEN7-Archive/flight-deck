@@ -5,6 +5,7 @@ MAINTAINER tess@ten7.com
 RUN apk -U upgrade
 
 RUN apk add --update --no-cache \
+            ansible \
             zlib \
             apache2 \
             php5-apache2 \
@@ -33,6 +34,9 @@ RUN apk add --update --no-cache \
             php5-xdebug \
             php5-xml \
             mariadb-client \
+            rsync \
+            openssh-client \
+    && rm -rf /tmp/* \
     && rm -f /var/cache/apk/*
 
 # forward request and error logs to docker log collector
