@@ -1,12 +1,10 @@
 FROM alpine:edge
 MAINTAINER tess@ten7.com
 
-# Add the Testing repository.
-RUN echo @testing http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories
-
-# Install Apache and PHP.
+# Update all the Alpine packages.
 RUN apk -U upgrade
 
+# Install Apache and PHP.
 RUN apk add --update --no-cache \
             ansible \
             zlib \
@@ -23,16 +21,19 @@ RUN apk add --update --no-cache \
             php7-ldap \
             php7-mbstring \
             php7-mcrypt \
-            php7-memcached@testing \
+            php7-memcached \
+            php7-mysqlnd \
             php7-opcache \
             php7-openssl \
             php7-phar \
-            php7-session \
-            php7-soap \
             php7-sqlite3 \
             php7-pdo \
             php7-pdo_mysql \
             php7-pdo_sqlite \
+            php7-phar \
+            php7-soap \
+            php7-session \
+            php7-tokenizer \
             php7-xdebug \
             php7-exif \
             php7-xml \
@@ -41,7 +42,6 @@ RUN apk add --update --no-cache \
             mariadb-client \
             rsync \
             openssh-client \
-    && ln -s /usr/bin/php7 /usr/bin/php \
     && rm -rf /tmp/* \
     && rm -rf /var/cache/apk/*
 
