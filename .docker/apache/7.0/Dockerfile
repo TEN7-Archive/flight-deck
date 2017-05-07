@@ -33,10 +33,12 @@ RUN apk add --update --no-cache \
             php7-phar \
             php7-soap \
             php7-session \
+            php7-simplexml \
             php7-tokenizer \
             php7-xdebug \
             php7-exif \
             php7-xml \
+            php7-xmlwriter \
             php7-zip \
             php7-zlib \
             mariadb-client \
