@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   web:
     image: ten7/dockstack-php-apache:latest
@@ -7,8 +7,8 @@ services:
     env_file:
       - .env
     volumes:
-      - ./src:/var/www/html
-      - ./sync:/var/www/sync
+      - ./src:/var/www/html:cached
+      - ./sync:/var/www/sync:cached
   db:
     image: ten7/dockstack-mysql
     ports:
@@ -17,7 +17,7 @@ services:
       - .env
     volumes:
       - /var/lib/mysql
-      - ./db-backups:/tmp/db-backups
+      - ./db-backups:/tmp/db-backups:cached
   memcached:
     image: memcached:1.4-alpine
   pma:
