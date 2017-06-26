@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.6
 MAINTAINER tess@ten7.com
 
 # Update all the Alpine packages.
@@ -80,6 +80,10 @@ COPY xdebug.ini /etc/php7/conf.d/
 # Add and chmod our run scripts.
 COPY run.sh /scripts/run.sh
 RUN chmod -R 755 /scripts
+
+# Add our vim script because deleting 'm' all the time sucks.
+COPY vim.sh /usr/bin/vim
+RUN chmod +x /usr/bin/vim
 
 EXPOSE 80
 

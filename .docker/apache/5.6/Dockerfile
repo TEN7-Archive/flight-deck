@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.5
 MAINTAINER tess@ten7.com
 
 # Install Apache and PHP.
@@ -69,6 +69,10 @@ COPY xdebug.ini /etc/php5/conf.d/
 # Add and chmod our run scripts.
 COPY run.sh /scripts/run.sh
 RUN chmod -R 755 /scripts
+
+# Add our vim script because deleting 'm' all the time sucks.
+COPY vim.sh /usr/bin/vim
+RUN chmod +x /usr/bin/vim
 
 EXPOSE 80
 
