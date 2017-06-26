@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.6
 MAINTAINER tess@ten7.com
 
 # Update all the Alpine packages.
