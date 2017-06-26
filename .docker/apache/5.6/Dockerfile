@@ -69,6 +69,10 @@ COPY xdebug.ini /etc/php5/conf.d/
 COPY run.sh /scripts/run.sh
 RUN chmod -R 755 /scripts
 
+# Add our vim script because deleting 'm' all the time sucks.
+COPY vim.sh /usr/bin/vim
+RUN chmod +x /usr/bin/vim
+
 EXPOSE 80
 
 WORKDIR /var/www/html
