@@ -41,8 +41,10 @@ RUN apk add --update --no-cache \
     && rm -f /var/cache/apk/*
 
 # forward request and error logs to docker log collector
-RUN ln -sf /dev/stdout /var/log/apache2/access.log \
-    && ln -sf /dev/stderr /var/log/apache2/error.log
+RUN ln -sf /dev/stdout /var/log/apache2/access.log && \
+    ln -sf /dev/stderr /var/log/apache2/error.log && \
+    ln -sf /dev/stdout /var/log/apache2/000_default-access_log && \
+    ln -sf /dev/stderr /var/log/apache2/000_default-error_log
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
