@@ -79,6 +79,10 @@ COPY php.ini /etc/php7/
 COPY 00_opcache.ini /etc/php7/conf.d/
 COPY xdebug.ini /etc/php7/conf.d/
 
+# Copy Drush configuration files.
+COPY drushrc.php /etc/drush/
+COPY aliases.drushrc.php /etc/drush/
+
 # Add and chmod our run scripts.
 COPY run.sh /scripts/run.sh
 RUN chmod -R 755 /scripts
