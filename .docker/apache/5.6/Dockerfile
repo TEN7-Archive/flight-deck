@@ -55,7 +55,7 @@ RUN composer global require drush/drush && \
 
 # Install compass. We uninstall build dependencies afterwards to save space.
 RUN apk add --update build-base libffi-dev ruby ruby-dev \
-        && gem install sass compass --no-ri --no-rdoc \
+        && gem install sass compass sass-globbing --no-ri --no-rdoc \
         && apk del build-base libffi-dev ruby-dev \
         && rm -rf /var/cache/apk/*
 
