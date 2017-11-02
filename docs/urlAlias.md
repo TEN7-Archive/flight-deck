@@ -11,7 +11,7 @@ On Linux and macOS, creating the URL alias is easy:
 1. Open a terminal emulator.
 2. Open the `/etc/hosts` file using your favorite text editor. Be sure to use `sudo` to run the command as the root user: `sudo vi /etc/hosts`
 3. Notice there are two columns of text, one is IP address, the other is host names.
-4. At the end of the file, enter a new row. Use `127.0.0.1` as the IP address, and `docker.dev` as the hostname.
+4. At the end of the file, enter a new row. Use `127.0.0.1` as the IP address, and `docker.local` as the hostname.
 
 ## Windows
 
@@ -21,8 +21,8 @@ The Hosts file on Windows is actually in the same format as Linux and macOS, but
 2. Right click **Notepad**, and select **Run as administrator**.
 3. Open the following file for editing: `C:\Windows\System32\Drivers\etc\hosts`
 4. Notice there are two columns of text, one is IP address, the other is host names.
-5. At the end of the file, enter a new row. Use `127.0.0.1` as the IP address, and `docker.dev` as the hostname.
+5. At the end of the file, enter a new row. Use `127.0.0.1` as the IP address, and `docker.local` as the hostname.
 
 ## Additional aliases
 
-You only need to create the `docker.dev` alias once, no matter how many Dockstack-powered projects you have on your system. You may also choose to add a different URL alias such as 'docker.local', '[your_site_name].dev', and so on.
+You only need to create the `docker.local` alias once, no matter how many Dockstack-powered projects you have on your system. You may also choose to add a different URL alias such as 'docker.local', '[your_site_name].local', and so on.

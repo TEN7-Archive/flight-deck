@@ -10,7 +10,7 @@
  */
 $aliases['docker'] = array (
   'root' => '/var/www/html',
-  'uri' => 'http://docker.dev',
+  'uri' => 'http://docker.local',
   'path-aliases' => array(
     '%files' => 'sites/default/files',
   ),

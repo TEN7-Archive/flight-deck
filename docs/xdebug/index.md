@@ -47,7 +47,7 @@ Next, we need to configure the remote server.
 1. Open the **Run/Debug Configurations** window, and the debug configuration you created earlier.
 2. Click the **...** button next to **Servers**.
 3. The **Servers** window appears. Click the **+** icon in the upper left corner to create a new server.
-4. Enter a unique **Name** for the server. Usually this is the same as your URL alias (`docker.dev`).
+4. Enter a unique **Name** for the server. Usually this is the same as your URL alias (`docker.local`).
 5. Enter the **Host** as the same as your URL alias.
 6. Select the **Debugger** as **Xdebug**.
 7. Select **Use path mappings**.
