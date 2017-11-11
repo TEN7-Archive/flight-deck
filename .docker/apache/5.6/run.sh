@@ -3,6 +3,13 @@
 mkdir -p /run/apache2
 mkdir -p /var/www/html
 
+# Allow the Apache docroot to be overridden.
+APACHE_DOCROOT_DIR="${APACHE_DOCROOT_DIR:-/var/www/html}"
+if [ -n "$APACHE_DOCROOT_DIR" ]; then
+     sed -i 's@^\s*<Directory.*@'"   <Directory \"${APACHE_DOCROOT_DIR}\">"'@' /etc/apache2/sites.d/000_default.conf
+fi
+
+# Allow key PHP variables to be overriden.
 PHP_XDEBUG_ENABLED="${PHP_XDEBUG_ENABLED:-0}"
 PHP_XDEBUG_AUTOSTART="${PHP_XDEBUG_AUTOSTART:-0}"
 PHP_XDEBUG_REMOTE_CONNECT_BACK="${PHP_XDEBUG_REMOTE_CONNECT_BACK:-0}"
