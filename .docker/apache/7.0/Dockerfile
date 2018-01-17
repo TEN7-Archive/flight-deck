@@ -12,6 +12,7 @@ RUN apk add --update --no-cache \
             php7-apache2 \
             php7 \
             git \
+            patch \
             curl \
             php7-ctype \
             php7-curl \

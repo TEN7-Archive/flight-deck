@@ -11,6 +11,7 @@ RUN apk add --update --no-cache \
             php5-apache2 \
             curl \
             git \
+            patch \
             php5-cli \
             php5-curl \
             php5-ctype \
