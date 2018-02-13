@@ -1,0 +1,9 @@
+#! /bin/bash
+
+SCRIPT_NAME=`basename "$0"`
+
+# Change the Max Allowed Packet size, if set.
+if [ -n "$MYSQL_MAX_ALLOWED_PACKET" ]; then
+    echo "$SCRIPT_NAME: Setting max_allowed_packet to $MYSQL_MAX_ALLOWED_PACKET"
+    sed -i 's/^max_allowed_packet.*/'"max_allowed_packet = ${MYSQL_MAX_ALLOWED_PACKET}"'/' /etc/mysql/my.cnf
+fi

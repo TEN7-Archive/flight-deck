@@ -45,6 +45,7 @@ RUN apk add --update --no-cache \
             mariadb-client \
             rsync \
             openssh-client \
+            nodejs-npm \
     && rm -rf /tmp/* \
     && rm -rf /var/cache/apk/*
 

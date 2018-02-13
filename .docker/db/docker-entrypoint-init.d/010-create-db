@@ -1,0 +1,32 @@
+#! /bin/bash
+set -me
+
+SCRIPT_NAME=`basename "$0"`
+
+MYSQL_DATABASE=${MYSQL_DATABASE:-drupal}
+MYSQL_USER=${MYSQL_USER:-drupal}
+MYSQL_PASSWORD=${MYSQL_PASSWORD:-drupal}
+
+if [ -d "/var/lib/mysql/$MYSQL_DATABASE" ]; then
+  echo "$SCRIPT_NAME: Database $MYSQL_DATABASE already created."
+
+else
+  # Create a tempfile for our startup script.
+  SQL_INIT_FILE=$(mktemp)
+
+  # Change the owner of the tempfile so MySQL can read it.
+  chown mysql:mysql $SQL_INIT_FILE
+
+  # Write our database and user set up to the tempfile.
+  echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;" >> $SQL_INIT_FILE
+  echo "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" >> $SQL_INIT_FILE
+  echo "GRANT ALL ON $MYSQL_DATABASE.* to '$MYSQL_USER'@'%';" >> $SQL_INIT_FILE
+  echo "FLUSH PRIVILEGES;" >> $SQL_INIT_FILE
+
+  # Start MySQL in the background if it isn't already.
+  mysql-background-start.sh
+
+  # Run the script file.
+  echo "$SCRIPT_NAME: Initializing database $MYSQL_DATABASE"
+  mysql -u root < $SQL_INIT_FILE
+fi

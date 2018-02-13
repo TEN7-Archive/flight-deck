@@ -1,0 +1,29 @@
+#! /bin/bash
+set -me
+
+SCRIPT_NAME=`basename "$0"`
+
+if [ -n "$ADDITIONAL_DATABASES" ]; then
+  # Create a tempfile for our startup script.
+  SQL_INIT_FILE=$(mktemp)
+
+  # Change the owner of the tempfile so MySQL can read it.
+  chown mysql:mysql $SQL_INIT_FILE
+
+  for ADD_DB_NAME in $ADDITIONAL_DATABASES; do
+    echo "CREATE DATABASE IF NOT EXISTS $ADD_DB_NAME;" >> $SQL_INIT_FILE
+    echo "GRANT ALL ON $ADD_DB_NAME.* TO '$MYSQL_USER'@'%' ;" >> $SQL_INIT_FILE
+  done;
+
+  echo "FLUSH PRIVILEGES;" >> $SQL_INIT_FILE
+
+  # Start MySQL in the background if it isn't already.
+  mysql-background-start.sh
+
+  # Run the script file.
+  echo "$SCRIPT_NAME: Initializing additional databases."
+  mysql -u root < $SQL_INIT_FILE
+
+else
+  echo "$SCRIPT_NAME: No additional databases specified."
+fi

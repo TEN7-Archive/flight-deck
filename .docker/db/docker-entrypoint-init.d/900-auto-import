@@ -2,9 +2,15 @@
 
 CWD=$( pwd )
 
+SCRIPT_NAME=`basename "$0"`
+
 MYSQL_AUTO_IMPORT="${MYSQL_AUTO_IMPORT:-0}"
 
 if [ "$MYSQL_AUTO_IMPORT" -eq "1" ]; then
+  # Start MySQL in the background if it isn't already.
+  mysql-background-start.sh
+
+  echo "$SCRIPT_NAME: Beginning auto import."
 
   mkdir -p -m 777 /tmp/db-backups
   cd /tmp/db-backups
@@ -13,28 +19,28 @@ if [ "$MYSQL_AUTO_IMPORT" -eq "1" ]; then
 
   case "$LATEST_DUMP" in
       *.gz)
-            echo Importing gzip compressed file $LATEST_DUMP
+            echo "$SCRIPT_NAME: Importing gzip compressed file $LATEST_DUMP"
             zcat $LATEST_DUMP | mysql --user=root --password=$MYSQL_ROOT_PASSWORD -C $MYSQL_DATABASE
             ;;
       *.xz)
-            echo Importing xz compressed file $LATEST_DUMP
+            echo "$SCRIPT_NAME: Importing xz compressed file $LATEST_DUMP"
             xzcat $LATEST_DUMP | mysql --user=root --password=$MYSQL_ROOT_PASSWORD -C $MYSQL_DATABASE
             ;;
       *.lzo)
-            echo Importing lzo compressed file $LATEST_DUMP
+            echo "$SCRIPT_NAME: Importing lzo compressed file $LATEST_DUMP"
             lzopcat $LATEST_DUMP | mysql --user=root --password=$MYSQL_ROOT_PASSWORD -C $MYSQL_DATABASE
             ;;
       *.sql)
-            echo Importing uncomressed sql file $LATEST_DUMP
+            echo "$SCRIPT_NAME: Importing uncomressed sql file $LATEST_DUMP"
             mysql --user=root --password=$MYSQL_ROOT_PASSWORD -C $MYSQL_DATABASE < $LATEST_DUMP;
             ;;
       *.mysql)
-            echo Importing uncomressed mysql file $LATEST_DUMP
+            echo "$SCRIPT_NAME: Importing uncomressed mysql file $LATEST_DUMP"
             mysql --user=root --password=$MYSQL_ROOT_PASSWORD -C $MYSQL_DATABASE < $LATEST_DUMP;
             ;;
   esac
 
   cd $CWD
 else
-  echo MYSQL_AUTO_IMPORT not set, skipping auto-import.
+  echo "$SCRIPT_NAME: MYSQL_AUTO_IMPORT not set, skipping auto-import."
 fi
