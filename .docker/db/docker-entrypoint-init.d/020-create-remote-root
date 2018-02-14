@@ -17,7 +17,7 @@ if [ -n "$MYSQL_ROOT_PASSWORD" ]; then
   mysql-background-start.sh
 
   echo "$SCRIPT_NAME: Creating remote root user."
-  mysql -u root < $SQL_INIT_FILE
+  mysql < $SQL_INIT_FILE
 
 else
   echo "$SCRIPT_NAME: Skipping remote root user creation."

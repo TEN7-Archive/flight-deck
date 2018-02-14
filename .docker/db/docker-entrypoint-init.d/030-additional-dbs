@@ -22,7 +22,7 @@ if [ -n "$ADDITIONAL_DATABASES" ]; then
 
   # Run the script file.
   echo "$SCRIPT_NAME: Initializing additional databases."
-  mysql -u root < $SQL_INIT_FILE
+  mysql < $SQL_INIT_FILE
 
 else
   echo "$SCRIPT_NAME: No additional databases specified."
