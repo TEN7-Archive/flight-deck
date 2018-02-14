@@ -7,6 +7,7 @@ RUN apk -U upgrade
 # Install Apache and PHP.
 RUN apk add --update --no-cache \
             ansible \
+            bash \
             zlib \
             apache2 \
             php7-apache2 \
@@ -67,10 +68,10 @@ RUN curl https://drupalconsole.com/installer -L -o /usr/bin/drupal && \
     chmod 777 /usr/bin/drupal
 
 # Install compass. We uninstall build dependencies afterwards to save space.
-RUN apk add --update build-base libffi-dev ruby ruby-dev \
-        && gem install sass compass sass-globbing --no-ri --no-rdoc \
-        && apk del build-base libffi-dev ruby-dev \
-        && rm -rf /var/cache/apk/*
+# RUN apk add --update build-base libffi-dev ruby ruby-dev \
+#         && gem install sass compass sass-globbing --no-ri --no-rdoc \
+#         && apk del build-base libffi-dev ruby-dev \
+#         && rm -rf /var/cache/apk/*
 
 # Copy the Apache configuration files.
 COPY httpd.conf /etc/apache2/httpd.conf
@@ -78,23 +79,27 @@ COPY 000_default.conf /etc/apache2/sites.d/
 
 # Copy PHP configuration files.
 COPY php.ini /etc/php7/
-COPY 00_opcache.ini /etc/php7/conf.d/
-COPY xdebug.ini /etc/php7/conf.d/
+COPY 00_opcache.ini /etc/php7/conf.d/00_opcache.ini
+COPY xdebug.ini /etc/php7/conf.d/xdebug.ini
 
 # Copy Drush configuration files.
 COPY drushrc.php /etc/drush/
 COPY aliases.drushrc.php /etc/drush/
 
-# Add and chmod our run scripts.
-COPY run.sh /scripts/run.sh
-RUN chmod -R 755 /scripts
+# Copy various key scripts to a directory in $PATH.
+COPY docker-entrypoint.sh /usr/local/bin/
+COPY vim.sh /usr/local/bin/vim
 
-# Add our vim script because deleting 'm' all the time sucks.
-COPY vim.sh /usr/bin/vim
-RUN chmod +x /usr/bin/vim
+# Make them all executable.
+RUN chmod a+x /usr/local/bin/docker-entrypoint.sh && \
+    chmod +x /usr/local/bin/vim
+
+# Copy the entire contents of the init.d directory.
+COPY docker-entrypoint-init.d /docker-entrypoint-init.d
+RUN chmod a+x -R /docker-entrypoint-init.d
 
 EXPOSE 80
-
 WORKDIR /var/www/html
 
-CMD ["/scripts/run.sh"]
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["/usr/sbin/httpd", "-D", "FOREGROUND", "-f", "/etc/apache2/httpd.conf"]

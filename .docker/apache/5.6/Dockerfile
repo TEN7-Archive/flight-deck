@@ -51,14 +51,21 @@ RUN ln -sf /dev/stdout /var/log/apache2/access.log && \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
 # Install drush
-RUN composer global require drush/drush && \
-    ln -s /root/.composer/vendor/bin/drush /usr/bin/drush
+ADD https://github.com/drush-ops/drush/archive/7.4.0.tar.gz /tmp/drush-7.4.0.tar.gz
+RUN mkdir -p -m 776 /usr/local/share/drush && \
+    tar --strip-components=1 -xzf /tmp/drush-7.4.0.tar.gz -C /usr/local/share/drush && \
+    cd /usr/local/share/drush && \
+    composer install --prefer-dist --no-interaction && \
+    ln -sfn /usr/local/share/drush/drush /usr/local/bin/drush
+
+# RUN composer global require drush/drush && \
+#     ln -s /root/.composer/vendor/bin/drush /usr/bin/drush
 
 # Install compass. We uninstall build dependencies afterwards to save space.
-RUN apk add --update build-base libffi-dev ruby ruby-dev \
-        && gem install sass compass sass-globbing --no-ri --no-rdoc \
-        && apk del build-base libffi-dev ruby-dev \
-        && rm -rf /var/cache/apk/*
+# RUN apk add --update build-base libffi-dev ruby ruby-dev \
+#         && gem install sass compass sass-globbing --no-ri --no-rdoc \
+#         && apk del build-base libffi-dev ruby-dev \
+#         && rm -rf /var/cache/apk/*
 
 # Copy the Apache configuration files.
 COPY httpd.conf /etc/apache2/httpd.conf
