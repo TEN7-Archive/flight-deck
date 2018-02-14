@@ -12,6 +12,8 @@ if [ -n "$ADDITIONAL_DATABASES" ]; then
 
   for ADD_DB_NAME in $ADDITIONAL_DATABASES; do
     echo "CREATE DATABASE IF NOT EXISTS $ADD_DB_NAME;" >> $SQL_INIT_FILE
+
+    # @todo this should be locked to the service name or names for better security.
     echo "GRANT ALL ON $ADD_DB_NAME.* TO '$MYSQL_USER'@'%' ;" >> $SQL_INIT_FILE
   done;
 

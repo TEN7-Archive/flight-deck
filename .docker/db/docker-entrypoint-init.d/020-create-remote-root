@@ -3,7 +3,10 @@ set -me
 
 SCRIPT_NAME=`basename "$0"`
 
-if [ -n "$MYSQL_ROOT_PASSWORD" ]; then
+# Allow remote root to be disabled independently of if the password is set.
+MYSQL_ALLOW_REMOTE_ROOT=${MYSQL_ALLOW_REMOTE_ROOT:-1}
+
+if [ "$MYSQL_ALLOW_REMOTE_ROOT" -eq 1 ] && [ -n "$MYSQL_ROOT_PASSWORD" ]; then
   # Create a tempfile for our startup script.
   SQL_INIT_FILE=$(mktemp)
 
