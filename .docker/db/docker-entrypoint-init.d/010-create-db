@@ -6,11 +6,17 @@ SCRIPT_NAME=`basename "$0"`
 MYSQL_DATABASE=${MYSQL_DATABASE:-drupal}
 MYSQL_USER=${MYSQL_USER:-drupal}
 MYSQL_PASSWORD=${MYSQL_PASSWORD:-drupal}
+MYSQL_USER_REMOTE_HOSTNAMES=${MYSQL_USER_REMOTE_HOSTNAMES:-%}
 
 if [ -d "/var/lib/mysql/$MYSQL_DATABASE" ]; then
   echo "$SCRIPT_NAME: Database $MYSQL_DATABASE already created."
 
 else
+
+  # Filter out localhost and loopback from MYSQL_USER_REMOTE_HOSTNAMES.
+  MYSQL_USER_REMOTE_HOSTNAMES=${MYSQL_USER_REMOTE_HOSTNAMES//localhost/}
+  MYSQL_USER_REMOTE_HOSTNAMES=${MYSQL_USER_REMOTE_HOSTNAMES//127\.0\.0\.1/}
+
   # Create a tempfile for our startup script.
   SQL_INIT_FILE=$(mktemp)
 
@@ -19,8 +25,11 @@ else
 
   # Write our database and user set up to the tempfile.
   echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;" >> $SQL_INIT_FILE
-  echo "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" >> $SQL_INIT_FILE
-  echo "GRANT ALL ON $MYSQL_DATABASE.* to '$MYSQL_USER'@'%';" >> $SQL_INIT_FILE
+
+  for MYSQL_USER_REMOTE_HOSTNAME in $MYSQL_USER_REMOTE_HOSTNAMES; do
+    echo "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" >> $SQL_INIT_FILE
+    echo "GRANT ALL ON $MYSQL_DATABASE.* to '$MYSQL_USER'@'$MYSQL_USER_REMOTE_HOSTNAME';" >> $SQL_INIT_FILE
+  done;
 
   # Create a localhost user with even more privileges, especially shutdown.
   echo "CREATE USER '$MYSQL_USER'@'localhost' IDENTIFIED BY '$MYSQL_PASSWORD';" >> $SQL_INIT_FILE

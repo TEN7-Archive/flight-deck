@@ -3,7 +3,14 @@ set -me
 
 SCRIPT_NAME=`basename "$0"`
 
+MYSQL_USER_REMOTE_HOSTNAMES=${MYSQL_USER_REMOTE_HOSTNAMES:-%}
+
 if [ -n "$ADDITIONAL_DATABASES" ]; then
+
+  # Filter out localhost and loopback from MYSQL_USER_REMOTE_HOSTNAMES.
+  MYSQL_USER_REMOTE_HOSTNAMES=${MYSQL_USER_REMOTE_HOSTNAMES//localhost/}
+  MYSQL_USER_REMOTE_HOSTNAMES=${MYSQL_USER_REMOTE_HOSTNAMES//127\.0\.0\.1/}
+
   # Create a tempfile for our startup script.
   SQL_INIT_FILE=$(mktemp)
 
@@ -13,8 +20,10 @@ if [ -n "$ADDITIONAL_DATABASES" ]; then
   for ADD_DB_NAME in $ADDITIONAL_DATABASES; do
     echo "CREATE DATABASE IF NOT EXISTS $ADD_DB_NAME;" >> $SQL_INIT_FILE
 
-    # @todo this should be locked to the service name or names for better security.
-    echo "GRANT ALL ON $ADD_DB_NAME.* TO '$MYSQL_USER'@'%' ;" >> $SQL_INIT_FILE
+    # Add grants for all remote hostnames.
+    for MYSQL_USER_REMOTE_HOSTNAME in $MYSQL_USER_REMOTE_HOSTNAMES; do
+      echo "GRANT ALL ON $ADD_DB_NAME.* TO '$MYSQL_USER'@'$MYSQL_USER_REMOTE_HOSTNAME' ;" >> $SQL_INIT_FILE
+    done;
   done;
 
   echo "FLUSH PRIVILEGES;" >> $SQL_INIT_FILE
