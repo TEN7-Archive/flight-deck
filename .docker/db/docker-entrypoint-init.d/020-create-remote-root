@@ -3,7 +3,7 @@ set -me
 
 SCRIPT_NAME=`basename "$0"`
 
-if [ -n "$MYSQL_ROOT_PASSWORD"]; then
+if [ -n "$MYSQL_ROOT_PASSWORD" ]; then
   # Create a tempfile for our startup script.
   SQL_INIT_FILE=$(mktemp)
 
@@ -11,8 +11,7 @@ if [ -n "$MYSQL_ROOT_PASSWORD"]; then
   chown mysql:mysql $SQL_INIT_FILE
 
   # Create a root user with remote-login capability.
-  echo "CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';" >> $SQL_INIT_FILE
-  echo "GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION;" >> $SQL_INIT_FILE
+  echo "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';" >> $SQL_INIT_FILE
 
   # Start MySQL in the background if it isn't already.
   mysql-background-start.sh
