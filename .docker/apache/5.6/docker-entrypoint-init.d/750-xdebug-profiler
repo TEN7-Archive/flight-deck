@@ -3,7 +3,7 @@ set -me
 
 SCRIPT_NAME=`basename "$0"`
 
-PHP_XDEBUG_INI_PATH="${PHP_XDEBUG_INI_PATH:-/etc/php7/conf.d/xdebug.ini}"
+PHP_XDEBUG_INI_PATH="${PHP_XDEBUG_INI_PATH:-/etc/php5/conf.d/xdebug.ini}"
 
 PHP_XDEBUG_ENABLED="${PHP_XDEBUG_ENABLED:-0}"
 PHP_XDEBUG_PROFILE_FORCE="${PHP_XDEBUG_PROFILE_FORCE:-0}"

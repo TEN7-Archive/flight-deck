@@ -3,7 +3,7 @@ set -me
 
 SCRIPT_NAME=`basename "$0"`
 
-PHP_INI_PATH="${PHP_INI_PATH:-/etc/php7/php.ini}"
+PHP_INI_PATH="${PHP_INI_PATH:-/etc/php5/php.ini}"
 
 if [ -n "$PHP_SENDMAIL_PATH" ]; then
      echo "$SCRIPT_NAME: Setting sendmail_path to $PHP_SENDMAIL_PATH."

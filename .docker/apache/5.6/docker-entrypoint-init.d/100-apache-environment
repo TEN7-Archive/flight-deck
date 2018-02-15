@@ -6,8 +6,8 @@ SCRIPT_NAME=`basename "$0"`
 # Allow the Apache docroot to be overridden.
 APACHE_DOCROOT_DIR="${APACHE_DOCROOT_DIR:-/var/www/html}"
 if [ -n "$APACHE_DOCROOT_DIR" ]; then
-      echo "$SCRIPT_NAME: Setting APACHE_DOCROOT_DIR to $APACHE_DOCROOT_DIR"
-     sed -i 's@^\s*<Directory.*@'"   <Directory \"${APACHE_DOCROOT_DIR}\">"'@' /etc/apache2/sites.d/000_default.conf
+  echo "$SCRIPT_NAME: Setting APACHE_DOCROOT_DIR to $APACHE_DOCROOT_DIR"
+  sed -i 's@^\s*<Directory.*@'"   <Directory \"${APACHE_DOCROOT_DIR}\">"'@' /etc/apache2/sites.d/000_default.conf
 fi
 
 # Allow the site name to be overriden.
