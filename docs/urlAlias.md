@@ -1,6 +1,6 @@
 # Creating a URL alias
 
-Accessing Dockstack using `localhost` poses a number of problems. The biggest of which is that it's a special domain name, which creates problems for complex CMSes like Drupal. Many sites also rely on `.htaccess` rewrite rules to redirect traffic to an HTTPS or `www.`-prefixed domain.
+Accessing Flight Deck using `localhost` poses a number of problems. The biggest of which is that it's a special domain name, which creates problems for complex CMSes like Drupal. Many sites also rely on `.htaccess` rewrite rules to redirect traffic to an HTTPS or `www.`-prefixed domain.
 
 To solve these issues, it's ***highly*** recommended to create a *URL alias*.
 
@@ -25,4 +25,4 @@ The Hosts file on Windows is actually in the same format as Linux and macOS, but
 
 ## Additional aliases
 
-You only need to create the `docker.test` alias once, no matter how many Dockstack-powered projects you have on your system. You may also choose to add a different URL alias such as 'docker.test', '[your_site_name].local', and so on.
+You only need to create the `docker.test` alias once, no matter how many Flight Deck-powered projects you have on your system. You may also choose to add a different URL alias such as 'docker.test', '[your_site_name].local', and so on.

@@ -1,7 +1,7 @@
-site_name: Dockstack Documentation
+site_name: Flight Deck Documentation
 
-repo_url: https://github.com/ten7/dockstack
-site_description: 'Dockstack – Dockerize your Drupal development'
+repo_url: https://github.com/ten7/flight-deck
+site_description: 'Flight Deck – Dockerize your Drupal development'
 theme: readthedocs
 
 markdown_extensions:
