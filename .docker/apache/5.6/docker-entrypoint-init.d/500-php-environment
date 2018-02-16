@@ -1,0 +1,11 @@
+#! /bin/bash
+set -me
+
+SCRIPT_NAME=`basename "$0"`
+
+PHP_INI_PATH="${PHP_INI_PATH:-/etc/php5/php.ini}"
+
+if [ -n "$PHP_SENDMAIL_PATH" ]; then
+     echo "$SCRIPT_NAME: Setting sendmail_path to $PHP_SENDMAIL_PATH."
+     sed -i 's@^;sendmail_path.*@'"sendmail_path = ${PHP_SENDMAIL_PATH}"'@' $PHP_INI_PATH
+fi

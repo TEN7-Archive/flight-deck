@@ -1,7 +1,7 @@
 version: '3'
 services:
   web:
-    image: ten7/dockstack-php-apache:latest
+    image: ten7/flight-deck-web:latest
     ports:
       - "80:80"
     env_file:
@@ -10,7 +10,7 @@ services:
       - ./src:/var/www/html:cached
       - ./sync:/var/www/sync:cached
   db:
-    image: ten7/dockstack-mysql
+    image: ten7/flight-deck-db
     ports:
       - 3306:3306
     env_file:
@@ -37,13 +37,13 @@ services:
     ports:
       - "8002:8025"
   # solr:
-  #   image: ten7/dockstack-solr:5.5
+  #   image: ten7/flight-deck-solr:5.5
   #   env_file:
   #     - .env
   #   ports:
   #     - "8003:8983"
   # varnish:
-  #   image: ten7/dockstack-varnish:4.0
+  #   image: ten7/flight-deck-varnish:4.0
   #   depends_on:
   #     - web
   #   env_file:
