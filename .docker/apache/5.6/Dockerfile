@@ -81,14 +81,11 @@ RUN mkdir -p -m 776 /usr/local/share/drush && \
     chmod -R a+xr /usr/local/share/drush && \
     ln -sfn /usr/local/share/drush/drush /usr/local/bin/drush
 
-# RUN composer global require drush/drush && \
-#     ln -s /root/.composer/vendor/bin/drush /usr/bin/drush
-
-# Install compass. We uninstall build dependencies afterwards to save space.
-# RUN apk add --update build-base libffi-dev ruby ruby-dev \
-#         && gem install sass compass sass-globbing --no-ri --no-rdoc \
-#         && apk del build-base libffi-dev ruby-dev \
-#         && rm -rf /var/cache/apk/*
+# Install sass. We uninstall build dependencies afterwards to save space.
+RUN apk add --update build-base libffi-dev ruby ruby-dev \
+        && gem install sass sass-globbing --no-ri --no-rdoc \
+        && apk del build-base libffi-dev ruby-dev \
+        && rm -rf /var/cache/apk/*
 
 # Copy the Apache configuration files.
 COPY httpd.conf /etc/apache2/httpd.conf

@@ -93,11 +93,11 @@ RUN mkdir -p -m 776 /usr/local/share/drush && \
 RUN curl https://drupalconsole.com/installer -L -o /usr/bin/drupal && \
     chmod 777 /usr/bin/drupal
 
-# Install compass. We uninstall build dependencies afterwards to save space.
-# RUN apk add --update build-base libffi-dev ruby ruby-dev \
-#         && gem install sass compass sass-globbing --no-ri --no-rdoc \
-#         && apk del build-base libffi-dev ruby-dev \
-#         && rm -rf /var/cache/apk/*
+# Install sass. We uninstall build dependencies afterwards to save space.
+RUN apk add --update build-base libffi-dev ruby ruby-dev \
+        && gem install sass sass-globbing --no-ri --no-rdoc \
+        && apk del build-base libffi-dev ruby-dev \
+        && rm -rf /var/cache/apk/*
 
 # Copy the Apache configuration files.
 COPY httpd.conf /etc/apache2/httpd.conf
