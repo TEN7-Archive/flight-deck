@@ -15,11 +15,11 @@ RUN apk add --update --no-cache \
             bash \
             varnish=4.1.9-r0
 
+# Copy the Varnish configuration files.
+COPY varnish /etc/varnish/
+
 # Set the owner of the /etc/varnish directory.
 RUN chown -R varnish:varnish /etc/varnish
-
-# Copy the Varnish configuration files.
-COPY --chown=varnish:varnish varnish /etc/varnish/
 
 # Copy various key scripts to a directory in $PATH.
 COPY docker-entrypoint.sh /usr/local/bin/

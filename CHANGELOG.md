@@ -1,3 +1,7 @@
+TEN7 Flight Deck v2.1.1   2018-02-20
+====================================
+* Removed --chown flag from varnish Dockerfile that broke hub builds.
+
 TEN7 Flight Deck v2.1.0   2018-02-20
 ====================================
 * Completely new solr container based on the official Solr image
