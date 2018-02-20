@@ -1,3 +1,7 @@
+TEN7 Flight Deck v2.1.2   2018-02-20
+====================================
+* Fixed missing SASS and SASS Globbing.
+
 TEN7 Flight Deck v2.1.1   2018-02-20
 ====================================
 * Removed --chown flag from varnish Dockerfile that broke hub builds.
