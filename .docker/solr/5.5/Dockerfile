@@ -1,21 +1,30 @@
-FROM wodby/solr:5.5-1.0.0
+FROM solr:5.5-alpine
 MAINTAINER tess@ten7.com
 
 USER root
-RUN mkdir /docker-entrypoint-start.d
 
-COPY 100-create-core-from-env.sh /docker-entrypoint-start.d
-RUN chown -R $SOLR_USER:$SOLR_USER /docker-entrypoint-start.d
-RUN chmod -R 755 /docker-entrypoint-start.d
+RUN apk add --update --no-cache \
+      ansible \
+      bash \
+      rsync
 
-# Replace the original entrypoint with our custom one.
-COPY run.sh /opt/docker-solr/scripts/
-RUN chown $SOLR_USER:$SOLR_USER /opt/docker-solr/scripts/run.sh
-RUN chmod +x /opt/docker-solr/scripts/run.sh
+ADD http://ftp.drupal.org/files/projects/search_api_solr-8.x-1.x-dev.tar.gz /opt/search_api_solr.tar.gz
+RUN tar -xzf /opt/search_api_solr.tar.gz -C /opt/
 
-ENV PATH /opt/solr/bin:/opt/docker-solr/scripts:$PATH
+# Copy various key scripts to a directory in $PATH.
+COPY docker-entrypoint.sh /usr/local/bin/
+
+# Make them all executable.
+RUN chmod a+x /usr/local/bin/docker-entrypoint.sh
+
+# Copy the entire contents of the init.d directory.
+COPY docker-entrypoint-init.d /docker-entrypoint-init.d
+RUN chmod a+x -R /docker-entrypoint-init.d
 
 USER $SOLR_USER
 
-ENTRYPOINT ["run.sh"]
+EXPOSE 8983
+
+# Set the entrypoint and default command.
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["solr-foreground"]
