@@ -1,0 +1,17 @@
+#! /bin/bash
+set -me
+
+SCRIPT_NAME=`basename "$0"`
+
+VARNISH_BACKEND_HOST=${VARNISH_BACKEND_HOST:-web}
+VARNISH_BACKEND_PORT=${VARNISH_BACKEND_PORT:-80}
+
+if [ -n "$VARNISH_BACKEND_HOST" ]; then
+  echo "$SCRIPT_NAME: Setting Varnish backend host to $VARNISH_BACKEND_HOST"
+  sed -i 's/VARNISH_BACKEND_HOST/'"${VARNISH_BACKEND_HOST}"'/' /etc/varnish/backend.vcl
+fi
+
+if [ -n "$VARNISH_BACKEND_PORT" ]; then
+  echo "$SCRIPT_NAME: Setting Varnish backend port to $VARNISH_BACKEND_PORT"
+  sed -i 's/VARNISH_BACKEND_PORT/'"${VARNISH_BACKEND_PORT}"'/' /etc/varnish/backend.vcl
+fi
