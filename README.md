@@ -15,7 +15,7 @@ TEN7's Flight Deck is a library of containers for local Drupal development. Flig
 | [phpmyadmin/phpmyadmin](https://hub.docker.com/r/phpmyadmin/phpmyadmin/) | pma | latest | 8001 | all |
 | [mailhog/mailhog](https://hub.docker.com/r/mailhog/mailhog/) | mailhog | latest | 8002 | all |
 | [_/memcached](https://hub.docker.com/_/memcached/) | memcached | 1.4-alpine |   | all |
-| [ten7/flight-deck-varnish](https://hub.docker.com/r/ten7/flight-deck-varnish/) | varnish | 4.0, latest | 8004, 8005 | all |
+| [ten7/flight-deck-varnish](https://hub.docker.com/r/ten7/flight-deck-varnish/) | varnish | 4, 4.1, latest | 8004, 8005 | all |
 | [ten7/flight-deck-solr](https://hub.docker.com/r/ten7/flight-deck-solr/) | solr | 5.5, 6.6, latest | 8003 | 7, 8 |
 
 ## Support
