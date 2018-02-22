@@ -95,7 +95,7 @@ RUN curl https://drupalconsole.com/installer -L -o /usr/bin/drupal && \
 
 # Install sass. We uninstall build dependencies afterwards to save space.
 RUN apk add --update build-base libffi-dev ruby ruby-dev \
-        && gem install sass sass-globbing --no-ri --no-rdoc \
+        && gem install sass compass sass-globbing --no-ri --no-rdoc \
         && apk del build-base libffi-dev ruby-dev \
         && rm -rf /var/cache/apk/*
 
