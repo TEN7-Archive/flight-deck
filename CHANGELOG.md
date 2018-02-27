@@ -1,3 +1,7 @@
+TEN7 Flight Deck v2.1.4   2018-02-27
+====================================
+* Fixed Solr container not staying up on second start.
+
 TEN7 Flight Deck v2.1.3   2018-02-22
 ====================================
 * Added compass command to web container.

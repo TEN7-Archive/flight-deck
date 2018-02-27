@@ -1,5 +1,6 @@
 #!/bin/bash
-set -me
+
+# We can't use set -me here as stop-local-solr returns non-zero if no instance is started.
 
 SCRIPT_NAME=`basename "$0"`
 
