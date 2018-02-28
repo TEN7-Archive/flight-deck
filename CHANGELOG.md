@@ -1,3 +1,7 @@
+TEN7 Flight Deck v2.1.5   2018-02-28
+====================================
+* Added iconv library to web containers.
+
 TEN7 Flight Deck v2.1.4   2018-02-27
 ====================================
 * Fixed Solr container not staying up on second start.
