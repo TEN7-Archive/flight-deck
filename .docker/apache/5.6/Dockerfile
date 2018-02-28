@@ -24,6 +24,7 @@ RUN apk add --update --no-cache \
             php5-ctype \
             php5-dom \
             php5-gd \
+            php5-iconv \
             php5-imagick \
             php5-json \
             php5-ldap \

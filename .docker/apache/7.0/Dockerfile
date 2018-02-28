@@ -25,6 +25,7 @@ RUN apk add --update --no-cache \
             php7-curl \
             php7-dom \
             php7-gd \
+            php7-iconv \
             php7-json \
             php7-ldap \
             php7-mbstring \
