@@ -1,3 +1,7 @@
+TEN7 Flight Deck v2.1.6   2018-03-19
+====================================
+* Added more informative bash prompt.
+
 TEN7 Flight Deck v2.1.5   2018-02-28
 ====================================
 * Added iconv library to web containers.

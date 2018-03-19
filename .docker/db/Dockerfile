@@ -47,8 +47,14 @@ VOLUME /var/lib/mysql
 WORKDIR /var/lib/mysql
 EXPOSE 3306
 
+# Copy the root bashrc file.
+COPY bashrc-root /root/.bashrc
+
 # Switch to the mysql user.
 USER mysql
+
+# Copy the user bashrc file.
+COPY bashrc-user /var/lib/mysql/.bashrc
 
 # Set the entrypoint and default command.
 ENTRYPOINT ["docker-entrypoint.sh"]

@@ -33,8 +33,14 @@ RUN chmod a+x /usr/local/bin/docker-entrypoint.sh \
 COPY docker-entrypoint-init.d /docker-entrypoint-init.d
 RUN chmod a+x -R /docker-entrypoint-init.d
 
+# Copy the root bashrc file.
+COPY bashrc-root /root/.bashrc
+
 # Change to the Varnish user.
 USER varnish
+
+# Copy the user bashrc file.
+COPY bashrc-user /var/lib/varnish/.bashrc
 
 # Expose the default varnish port and control port.
 EXPOSE 6081 6082
