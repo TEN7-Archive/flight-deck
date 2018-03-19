@@ -125,9 +125,15 @@ RUN chmod a+x /usr/local/bin/docker-entrypoint.sh && \
 COPY docker-entrypoint-init.d /docker-entrypoint-init.d
 RUN chmod a+x -R /docker-entrypoint-init.d
 
+# Copy the root bashrc file.
+COPY bashrc-root /root/.bashrc
+
 EXPOSE 80
 WORKDIR /var/www/html
 USER apache
+
+# Copy the user bashrc file.
+COPY bashrc-user /var/www/.bashrc
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["/usr/sbin/httpd", "-D", "FOREGROUND", "-f", "/etc/apache2/httpd.conf"]
