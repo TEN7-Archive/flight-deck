@@ -1,7 +1,7 @@
 TEN7 Flight Deck v2.1.7   2018-03-23
 ====================================
 * Added Python MySQL DB support for Ansible.
-* 
+* Added global settings to `.env`.
 
 TEN7 Flight Deck v2.1.6   2018-03-19
 ====================================
