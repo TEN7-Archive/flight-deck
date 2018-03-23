@@ -12,6 +12,7 @@ RUN apk -U upgrade
 # Install Apache and PHP.
 RUN apk add --update --no-cache \
             ansible \
+            py-mysqldb \
             bash \
             libcap \
             zlib \
