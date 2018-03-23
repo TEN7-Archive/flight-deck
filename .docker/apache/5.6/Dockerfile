@@ -11,6 +11,7 @@ RUN apk -U upgrade
 
 RUN apk add --update --no-cache \
             ansible \
+            py-mysqldb \
             bash \
             libcap \
             zlib \
