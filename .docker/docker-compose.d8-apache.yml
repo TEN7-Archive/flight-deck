@@ -4,6 +4,7 @@ services:
     build: apache/7.0
     ports:
       - "80:80"
+      - "443:443"
     env_file:
       - ../.env
   db:

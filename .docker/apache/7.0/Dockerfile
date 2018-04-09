@@ -17,6 +17,7 @@ RUN apk add --update --no-cache \
             libcap \
             zlib \
             apache2 \
+            apache2-ssl \
             php7-apache2 \
             php7 \
             git \
@@ -77,7 +78,9 @@ RUN mkdir -p -m 774 \
 RUN ln -sf /dev/stdout /var/log/apache2/access.log && \
     ln -sf /dev/stderr /var/log/apache2/error.log && \
     ln -sf /dev/stdout /var/log/apache2/000_default-access_log && \
-    ln -sf /dev/stderr /var/log/apache2/000_default-error_log
+    ln -sf /dev/stderr /var/log/apache2/000_default-error_log && \
+    ln -sf /dev/stdout /var/log/apache2/000_default_ssl-access_log && \
+    ln -sf /dev/stderr /var/log/apache2/000_default_ssl-error_log
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
@@ -104,6 +107,10 @@ RUN apk add --update build-base libffi-dev ruby ruby-dev \
 # Copy the Apache configuration files.
 COPY httpd.conf /etc/apache2/httpd.conf
 COPY 000_default.conf /etc/apache2/sites.d/
+COPY ssl.conf /etc/apache2/conf.d/ssl.conf
+
+# Change the ownership of the Apache SSL files.
+RUN chown -R apache:www-data /etc/ssl/apache2
 
 # Copy PHP configuration files.
 COPY php.ini /etc/php7/
@@ -129,7 +136,7 @@ RUN chmod a+x -R /docker-entrypoint-init.d
 # Copy the root bashrc file.
 COPY bashrc-root /root/.bashrc
 
-EXPOSE 80
+EXPOSE 80 443
 WORKDIR /var/www/html
 USER apache
 
