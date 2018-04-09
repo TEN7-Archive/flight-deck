@@ -1,3 +1,7 @@
+TEN7 Flight Deck v2.1.8   2018-03-09
+====================================
+* Added HTTPS support to PHP 7 container with self-signed cert.
+
 TEN7 Flight Deck v2.1.7   2018-03-23
 ====================================
 * Added Python MySQL DB support for Ansible.
