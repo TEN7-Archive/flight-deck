@@ -1,8 +1,8 @@
-# Dockerize your Drupal dev environment
+# A set of Docker containers for local Drupal development.
 
 [![Documentation Status](https://readthedocs.org/projects/flight-deck/badge/?version=latest)](http://flight-deck.readthedocs.io/)
 
-TEN7's Flight Deck is a set of Docker containers for local Drupal development. It is lightweight, simple, and Docker-native, allowing you to stand up a local development environment quickly after installing Docker.
+Flight Deck is a set of Docker containers for local Drupal development. It is lightweight, simple, and Docker-native, allowing you to stand up a local development environment quickly after installing Docker. 
 
 
 ## Library
@@ -20,7 +20,7 @@ TEN7's Flight Deck is a set of Docker containers for local Drupal development. 
 
 ## Support
 
-You can always [post an issue](https://github.com/ten7/flight-deck/issues/new) on our Github page.
+Flight Deck is used internally and supported by [TEN7](https://ten7.com/). [Post an issue](https://github.com/ten7/flight-deck/issues/new) on our Github page for help.
 
 ## License
 
