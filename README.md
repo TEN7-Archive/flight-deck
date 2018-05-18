@@ -20,7 +20,7 @@ Flight Deck is a set of Docker containers for local Drupal development. It is l
 
 ## Support
 
-Flight Deck is used internally and supported by [TEN7](https://ten7.com/). [Post an issue](https://github.com/ten7/flight-deck/issues/new) on our Github page for help.
+Flight Deck is used and supported by [TEN7](https://ten7.com/). [Post an issue](https://github.com/ten7/flight-deck/issues/new) on our Github page for help.
 
 ## License
 
