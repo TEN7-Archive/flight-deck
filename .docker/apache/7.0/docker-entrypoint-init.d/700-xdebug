@@ -35,5 +35,6 @@ if [ "$PHP_XDEBUG_ENABLED" -eq "1" ]; then
     echo "$SCRIPT_NAME: Forwarding XDebug logs to STDOUT."
     ln -sfn /dev/stdout /var/log/apache2/xdebug.log
   fi
-
+else
+  sed -i 's/^zend_extension.*/zend_extension = xdebug.so/' $PHP_XDEBUG_INI_PATH
 fi

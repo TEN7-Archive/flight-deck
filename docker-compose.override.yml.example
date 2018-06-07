@@ -1,0 +1,21 @@
+# The docker-compose.override.yml file can be used to make local changes
+# to the configuration set in the base docker-compose.yml file.
+# See https://docs.docker.com/compose/extends for more information.
+#
+# It is recommended you do *not* track docker-compose.override.yml in your
+# repo. Instead, .gitignore it so that devs can make customizations.
+#
+version: '3'
+services:
+  web:
+    # Mount your own .ssh directory inside the web service. This allows you
+    # to use `drush sql-sync` within the web container, provided that the
+    # keys have been set up in the remote.
+    volumes:
+      - ~/.ssh:/var/www/.ssh:cached
+    # Since XDebug can be a performance drain -- particularly on non-linux --
+    # You can choose to enable by uncommenting the below:
+    #environment:
+    #  PHP_XDEBUG_ENABLED: 1
+    #  PHP_XDEBUG_AUTOSTART: 1
+    #  PHP_XDEBUG_PROFILE_TRIGGER: XDEBUG_PROFILE
