@@ -1,3 +1,12 @@
+TEN7 Flight Deck v2.1.10  2018-06-07
+====================================
+* Added Compose override example file
+* Disabled XDebug out of the box as it slows Mac and Win.
+
+TEN7 Flight Deck v2.1.9   2018-05-29
+====================================
+* Fixed APACHE_DOCROOT_DIR to also set the DocumentRoot
+
 TEN7 Flight Deck v2.1.8   2018-03-09
 ====================================
 * Added HTTPS support to PHP 7 container with self-signed cert.
