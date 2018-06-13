@@ -12,6 +12,7 @@ RUN apk add --no-cache \
         tar \
         ansible \
         bash \
+        curl \
         rsync
 
 RUN apk add --no-cache ca-certificates wget && \
@@ -21,7 +22,7 @@ ENV SOLR_USER="solr" \
     SOLR_UID="8983" \
     SOLR_GROUP="solr" \
     SOLR_GID="8983" \
-    SOLR_VERSION="5.5.5" \
+    SOLR_VERSION="4.10.4" \
     SOLR_URL="${SOLR_DOWNLOAD_SERVER:-https://archive.apache.org/dist/lucene/solr}/4.10.4/solr-4.10.4.tgz" \
     SOLR_KEYS="5F55943E13D49059D3F342777186B06E1ED139E7" \
     PATH="/opt/solr/bin:/opt/docker-solr/scripts:$PATH"
@@ -71,7 +72,11 @@ RUN set -e; \
   sed -i -e '/-Dsolr.clustering.enabled=true/ a SOLR_OPTS="$SOLR_OPTS -Dsun.net.inetaddr.ttl=60 -Dsun.net.inetaddr.negative.ttl=60"' /opt/solr/bin/solr.in.sh && \
   chown -R $SOLR_USER:$SOLR_GROUP /opt/solr
 
-# Get the ApacheSolr module so we can use the conf there.
+# Get the Search API module so we can use provided conf.
+ADD http://ftp.drupal.org/files/projects/search_api_solr-8.x-1.x-dev.tar.gz /opt/search_api_solr.tar.gz
+RUN tar -xzf /opt/search_api_solr.tar.gz -C /opt/
+
+# Get the ApacheSolr module so we can use provided conf.
 ADD https://ftp.drupal.org/files/projects/apachesolr-7.x-1.x-dev.tar.gz /opt/apachesolr.tar.gz
 RUN tar -xzf /opt/apachesolr.tar.gz -C /opt/
 
@@ -86,6 +91,9 @@ RUN chown -R $SOLR_USER:$SOLR_GROUP /opt/docker-solr /opt/mysolrhome
 # Copy the entire contents of the init.d directory.
 COPY docker-entrypoint-init.d /docker-entrypoint-init.d
 RUN chmod a+x -R /docker-entrypoint-init.d
+
+# Change the default ownership of the example Solr directory.
+RUN chown -R solr:solr /opt/solr/example/solr
 
 EXPOSE 8983
 WORKDIR /opt/solr
