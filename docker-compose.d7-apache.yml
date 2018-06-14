@@ -41,6 +41,9 @@ services:
   #     - .env
   #   ports:
   #     - "8003:8983"
+  #   # Uncomment the following to use a custom schema
+  #   # volumes:
+  #   #   - ./solr-conf:/solr-conf
   # varnish:
   #   image: ten7/flight-deck-varnish:4.0
   #   depends_on:

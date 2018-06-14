@@ -1,0 +1,58 @@
+#! /bin/bash
+set -me
+
+SCRIPT_NAME=`basename "$0"`
+
+#
+# Create Solr cores with a custom schema.
+#
+# This assumes you are mounting your Schema inside the core directory under
+# `$SOLR_HOME/$SOLR_CUSTOM_CORE_NAME/conf`.
+#
+
+if [[ -z ${SOLR_CUSTOM_CORE_NAME+x} ]]; then
+    echo "$SCRIPT_NAME: No SOLR_CUSTOM_CORE_NAME set; skipping custom core creation."
+elif [[ -z ${SOLR_CUSTOM_CORE_CONF_DIR+x} ]]; then
+    echo "$SCRIPT_NAME: No SOLR_CUSTOM_CORE_CONF_DIR set; skipping custom core creation."
+elif [[ ! -d $SOLR_CUSTOM_CORE_CONF_DIR ]]; then
+    echo "$SCRIPT_NAME: Directory SOLR_CUSTOM_CORE_CONF_DIR does not exist. Please mount custom conf there."
+else
+    SOLR_HOME="${SOLR_HOME:-/opt/solr/server/solr}"
+    CORE_DIR="${SOLR_HOME}/${SOLR_CUSTOM_CORE_NAME}"
+    CORE_DATA_DIR="${SOLR_HOME}/${SOLR_CUSTOM_CORE_NAME}/data"
+
+    if [[ -d $CORE_DATA_DIR ]]; then
+        echo "$SCRIPT_NAME: $CORE_DATA_DIR exists; skipping core creation"
+    else
+
+        echo "$SCRIPT_NAME: Creating custom core: $SOLR_CUSTOM_CORE_NAME"
+
+        # Create the core and data directory with open permissions.
+        mkdir -p -m 775 $CORE_DIR
+        mkdir -p -m 775 $CORE_DATA_DIR
+
+        # We do *not* create the data/index directory, as Solr itself uses that
+        # to be sure the core is initialized.
+
+        # Symlink the conf directory given to us to our core directory.
+        ln -sfn $SOLR_CUSTOM_CORE_CONF_DIR $CORE_DIR/conf
+
+        # Create the core.
+        /opt/solr/bin/solr create -c $SOLR_CUSTOM_CORE_NAME
+
+        # See https://github.com/docker-solr/docker-solr/issues/27
+        echo "$SCRIPT_NAME: Checking core"
+        if ! curl -s 'http://localhost:8983/solr/admin/cores?action=STATUS' | grep -q $SOLR_CUSTOM_CORE_NAME; then
+          echo "$SCRIPT_NAME: Could not find custom core $SOLR_CUSTOM_CORE_NAME"
+          exit 1
+        fi
+
+        echo "$SCRIPT_NAME: Created custom core $SOLR_CUSTOM_CORE_NAME"
+
+        # check the CORE_DATA_DIR exists; otherwise the detecting above will fail after stop/start
+        if [ ! -d "$CORE_DATA_DIR" ]; then
+            echo "$SCRIPT_NAME: Missing $CORE_DATA_DIR"
+            exit 1
+        fi
+    fi
+fi
