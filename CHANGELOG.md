@@ -1,3 +1,9 @@
+TEN7 Flight Deck v2.2.0   2018-06-14
+====================================
+* Added Solr 4.10 container
+* Added custom Solr schema support.
+* Added apachesolr module support to solr:4.10, and solr:5.5.
+
 TEN7 Flight Deck v2.1.10  2018-06-07
 ====================================
 * Added Compose override example file
