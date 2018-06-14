@@ -6,7 +6,8 @@ USER root
 RUN apk add --update --no-cache \
       ansible \
       bash \
-      rsync
+      rsync \
+      curl
 
 ADD http://ftp.drupal.org/files/projects/search_api_solr-8.x-1.x-dev.tar.gz /opt/search_api_solr.tar.gz
 RUN tar -xzf /opt/search_api_solr.tar.gz -C /opt/

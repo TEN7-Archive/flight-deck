@@ -6,10 +6,16 @@ USER root
 RUN apk add --update --no-cache \
       ansible \
       bash \
-      rsync
+      rsync \
+      curl
 
+# Get the Search API module so we can use provided conf.
 ADD http://ftp.drupal.org/files/projects/search_api_solr-8.x-1.x-dev.tar.gz /opt/search_api_solr.tar.gz
 RUN tar -xzf /opt/search_api_solr.tar.gz -C /opt/
+
+# Get the ApacheSolr module so we can use provided conf.
+ADD https://ftp.drupal.org/files/projects/apachesolr-7.x-1.x-dev.tar.gz /opt/apachesolr.tar.gz
+RUN tar -xzf /opt/apachesolr.tar.gz -C /opt/
 
 # Copy various key scripts to a directory in $PATH.
 COPY docker-entrypoint.sh /usr/local/bin/

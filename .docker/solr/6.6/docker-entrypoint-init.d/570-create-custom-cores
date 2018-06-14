@@ -17,11 +17,9 @@ elif [[ -z ${SOLR_CUSTOM_CORE_CONF_DIR+x} ]]; then
 elif [[ ! -d $SOLR_CUSTOM_CORE_CONF_DIR ]]; then
     echo "$SCRIPT_NAME: Directory SOLR_CUSTOM_CORE_CONF_DIR does not exist. Please mount custom conf there."
 else
-    SOLR_HOME="${SOLR_HOME:-/opt/solr/example/solr}"
+    SOLR_HOME="${SOLR_HOME:-/opt/solr/server/solr}"
     CORE_DIR="${SOLR_HOME}/${SOLR_CUSTOM_CORE_NAME}"
-    CORE_CONFIG="${CORE_DIR}/conf/solrconfig.xml"
-    CORE_SCHEMA="${CORE_DIR}/conf/schema.xml"
-    CORE_DATA_DIR="${SOLR_HOME}/${SOLR_CUSTOM_CORE_NAME}_data"
+    CORE_DATA_DIR="${SOLR_HOME}/${SOLR_CUSTOM_CORE_NAME}/data"
 
     if [[ -d $CORE_DATA_DIR ]]; then
         echo "$SCRIPT_NAME: $CORE_DATA_DIR exists; skipping core creation"
@@ -29,23 +27,18 @@ else
 
         echo "$SCRIPT_NAME: Creating custom core: $SOLR_CUSTOM_CORE_NAME"
 
-        # Create the core data dir with open permissions.
+        # Create the core and data directory with open permissions.
+        mkdir -p -m 775 $CORE_DIR
         mkdir -p -m 775 $CORE_DATA_DIR
 
         # We do *not* create the data/index directory, as Solr itself uses that
         # to be sure the core is initialized.
 
-        # Create the core.properties file so Solr can find and init the core on startup.
-        REAL_CORE_DIR="${SOLR_HOME}/${SOLR_CUSTOM_CORE_NAME}_core"
-        mkdir -p -m 775 $REAL_CORE_DIR
-        ln -sfn $SOLR_CUSTOM_CORE_CONF_DIR $REAL_CORE_DIR/conf
-        touch $REAL_CORE_DIR/core.properties
-        echo name=$SOLR_CUSTOM_CORE_NAME > $REAL_CORE_DIR/core.properties
-        echo transient=false >> $REAL_CORE_DIR/core.properties
-        echo loadOnStartup=true >> $REAL_CORE_DIR/core.properties
+        # Symlink the conf directory given to us to our core directory.
+        ln -sfn $SOLR_CUSTOM_CORE_CONF_DIR $CORE_DIR/conf
 
-        # Start Solr.
-        start-local-solr
+        # Create the core.
+        /opt/solr/bin/solr create -c $SOLR_CUSTOM_CORE_NAME
 
         # See https://github.com/docker-solr/docker-solr/issues/27
         echo "$SCRIPT_NAME: Checking core"
