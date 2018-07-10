@@ -38,6 +38,7 @@ RUN apk add --update --no-cache \
             php5-pdo \
             php5-pdo_mysql \
             php5-pdo_sqlite \
+            php5-pdo_dblib \
             php5-phar \
             php5-soap \
             php5-sockets \
