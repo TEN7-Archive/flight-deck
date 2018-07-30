@@ -1,3 +1,12 @@
+TEN7 Flight Deck v2.2.2   2018-07-30
+====================================
+* Updated Drush root to use APACHE_DOCROOT_DIR.
+* Updated default shell directory to APACHE_DOCROOT_DIR.
+
+TEN7 Flight Deck v2.2.1   2018-07-10
+====================================
+* Added MSSQL PDO support.
+
 TEN7 Flight Deck v2.2.0   2018-06-14
 ====================================
 * Added Solr 4.10 container
