@@ -1,3 +1,8 @@
+TEN7 Flight Deck v2.2.3   2018-07-30
+====================================
+* Added default Ansible hosts file with localhost.
+* Added default Ansible configuration file (sorry, cows!).
+
 TEN7 Flight Deck v2.2.2   2018-07-30
 ====================================
 * Updated Drush root to use APACHE_DOCROOT_DIR.

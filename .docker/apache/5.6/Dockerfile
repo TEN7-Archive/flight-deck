@@ -118,6 +118,10 @@ RUN chmod a+x -R /docker-entrypoint-init.d
 # Copy the root bashrc file.
 COPY bashrc-root /root/.bashrc
 
+# Copy the Ansible configuration files
+COPY ansible-hosts /etc/ansible/hosts
+COPY ansible.cfg /etc/ansible/ansible.cfg
+
 EXPOSE 80
 WORKDIR /var/www
 USER apache
