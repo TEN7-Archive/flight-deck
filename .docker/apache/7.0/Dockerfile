@@ -138,7 +138,7 @@ RUN chmod a+x -R /docker-entrypoint-init.d
 COPY bashrc-root /root/.bashrc
 
 EXPOSE 80 443
-WORKDIR /var/www/html
+WORKDIR /var/www
 USER apache
 
 # Copy the user bashrc file.
