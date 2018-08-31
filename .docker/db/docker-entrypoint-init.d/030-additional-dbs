@@ -2,8 +2,23 @@
 set -me
 
 SCRIPT_NAME=`basename "$0"`
+SECRETS_DIR=${SECRETS_DIR:-/secrets}
+CONFIG_DIR=${CONFIG_DIR:-/config}
 
-MYSQL_USER_REMOTE_HOSTNAMES=${MYSQL_USER_REMOTE_HOSTNAMES:-%}
+# Get the user remote hostnames from secrets, if provided.
+if [ -s "$SECRETS_DIR/MYSQL_USER_REMOTE_HOSTNAMES" ]; then
+  echo "$SCRIPT_NAME: Loading MYSQL_USER_REMOTE_HOSTNAMES from secrets"
+  MYSQL_USER_REMOTE_HOSTNAMES="$(<$SECRETS_DIR/MYSQL_USER_REMOTE_HOSTNAMES)"
+else
+  echo "$SCRIPT_NAME: Loading MYSQL_USER_REMOTE_HOSTNAMES from env"
+  MYSQL_USER_REMOTE_HOSTNAMES=${MYSQL_USER_REMOTE_HOSTNAMES:-%}
+fi
+
+# Get the Additional Databases from secrets, if provided.
+if [ -s "$SECRETS_DIR/ADDITIONAL_DATABASES" ]; then
+  echo "$SCRIPT_NAME: Loading ADDITIONAL_DATABASES from secrets"
+  ADDITIONAL_DATABASES="$(<$SECRETS_DIR/ADDITIONAL_DATABASES)"
+fi
 
 if [ -n "$ADDITIONAL_DATABASES" ]; then
 

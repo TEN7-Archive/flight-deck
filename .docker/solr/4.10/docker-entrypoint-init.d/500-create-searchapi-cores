@@ -2,16 +2,38 @@
 set -me
 
 SCRIPT_NAME=`basename "$0"`
+SECRETS_DIR=${SECRETS_DIR:-/secrets}
+CONFIG_DIR=${CONFIG_DIR:-/config}
+
+# Get the Solr core name from ConfigMap if provided.
+if [ -s "$CONFIG_DIR/SOLR_CORE_NAME" ]; then
+  echo "$SCRIPT_NAME: Loading SOLR_CORE_NAME from ConfigMap"
+  SOLR_CORE_NAME="$(<$CONFIG_DIR/SOLR_CORE_NAME)"
+fi
 
 if [[ ! -z ${SOLR_CORE_NAME+x} ]]; then
   echo "$SCRIPT_NAME: Using SOLR_CORE_NAME value for SOLR_SEARCHAPI_CORE_NAME"
   SOLR_SEARCHAPI_CORE_NAME="${SOLR_CORE_NAME}"
 fi
 
+# Get the SearchAPI core name from ConfigMap or env.
+if [ -s "$CONFIG_DIR/SOLR_SEARCHAPI_CORE_NAME" ]; then
+  echo "$SCRIPT_NAME: Loading SOLR_SEARCHAPI_CORE_NAME from ConfigMap"
+  SOLR_SEARCHAPI_CORE_NAME="$(<$CONFIG_DIR/SOLR_SEARCHAPI_CORE_NAME)"
+fi
+
 if [[ -z ${SOLR_SEARCHAPI_CORE_NAME+x} ]]; then
     echo "$SCRIPT_NAME: No SOLR_SEARCHAPI_CORE_NAME set; skipping core creation."
 else
-    SOLR_HOME="${SOLR_HOME:-/opt/solr/example/solr}"
+    # Get the Solr Home path from ConfigMap or env.
+    if [ -s "$CONFIG_DIR/SOLR_HOME" ]; then
+      echo "$SCRIPT_NAME: Loading SOLR_HOME from secrets"
+      SOLR_HOME="$(<$CONFIG_DIR/SOLR_HOME)"
+    else
+      echo "$SCRIPT_NAME: Loading SOLR_HOME from env"
+      SOLR_HOME="${SOLR_HOME:-/opt/solr/example/solr}"
+    fi
+
     CORE_DIR="${SOLR_HOME}/${SOLR_SEARCHAPI_CORE_NAME}"
 
     if [[ -d $CORE_DIR ]]; then

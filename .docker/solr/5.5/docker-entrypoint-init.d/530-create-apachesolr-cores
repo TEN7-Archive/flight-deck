@@ -2,11 +2,28 @@
 set -me
 
 SCRIPT_NAME=`basename "$0"`
+SECRETS_DIR=${SECRETS_DIR:-/secrets}
+CONFIG_DIR=${CONFIG_DIR:-/config}
+
+# Get the ApacheSolr core name from ConfigMap if provided.
+if [ -s "$CONFIG_DIR/SOLR_APACHESOLR_CORE_NAME" ]; then
+  echo "$SCRIPT_NAME: Loading SOLR_APACHESOLR_CORE_NAME from ConfigMap"
+  SOLR_APACHESOLR_CORE_NAME="$(<$CONFIG_DIR/SOLR_APACHESOLR_CORE_NAME)"
+fi
 
 if [[ -z ${SOLR_APACHESOLR_CORE_NAME+x} ]]; then
     echo "$SCRIPT_NAME: No SOLR_APACHESOLR_CORE_NAME set; skipping core creation."
 else
-    CORE_DIR="${SOLR_HOME:-/opt/solr/server/solr}/$SOLR_APACHESOLR_CORE_NAME"
+    # Get the Solr Home path from ConfigMap or env.
+    if [ -s "$CONFIG_DIR/SOLR_HOME" ]; then
+      echo "$SCRIPT_NAME: Loading SOLR_HOME from secrets"
+      SOLR_HOME="$(<$CONFIG_DIR/SOLR_HOME)"
+    else
+      echo "$SCRIPT_NAME: Loading SOLR_HOME from env"
+      SOLR_HOME="${SOLR_HOME:-/opt/solr/server/solr}"
+    fi
+
+    CORE_DIR="${SOLR_HOME}/$SOLR_APACHESOLR_CORE_NAME"
 
     if [[ -d $CORE_DIR ]]; then
         echo "$SCRIPT_NAME: $CORE_DIR exists; skipping drupal/apachesolr core creation"

@@ -1,5 +1,9 @@
-TEN7 Flight Deck v2.2.3   2018-07-30
+TEN7 Flight Deck v2.4.0   201X-XX-XX
 ====================================
+* Added global CONFIG_DIR variable, default "/config".
+* Added gloabl SECRETS_DIR variable, default "/secrets".
+* Added the ability to load container configuration from files at $CONFIG_DIR/VAR_NAME
+* Added the ability to load container sensitive configuration (secrets) from files at $SECRETS_DIR/VAR_NAME
 * Added default Ansible hosts file with localhost.
 * Added default Ansible configuration file (sorry, cows!).
 
