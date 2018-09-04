@@ -1,0 +1,15 @@
+#! /bin/bash
+set -me
+
+SCRIPT_NAME=`basename "$0"`
+
+echo "$SCRIPT_NAME: Ensuring needed files and directories exist."
+
+# Create the user's SSH directory.
+mkdir -p -m 700 /var/www/.ssh
+
+# Ensure the user's home directory, and authkeys have the proper permissions.
+chmod go-w /var/www
+
+# Ensure the login user is not blocked.
+sed -i s/"flightdeck:!"/"flightdeck:*"/g /etc/shadow

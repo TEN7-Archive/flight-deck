@@ -1,5 +1,6 @@
 TEN7 Flight Deck v2.4.0   201X-XX-XX
 ====================================
+* Added new CLI container for cron and SSH.
 * Added global CONFIG_DIR variable, default "/config".
 * Added gloabl SECRETS_DIR variable, default "/secrets".
 * Added the ability to load container configuration from files at $CONFIG_DIR/VAR_NAME
