@@ -96,13 +96,13 @@ UsePAM yes
 #PermitTTY yes
 #PrintMotd yes
 #PrintLastLog yes
-#TCPKeepAlive yes
+TCPKeepAlive yes
 #UseLogin no
 UsePrivilegeSeparation yes
 #PermitUserEnvironment no
 #Compression delayed
-ClientAliveInterval 300
-ClientAliveCountMax 0
+ClientAliveInterval 60
+ClientAliveCountMax 60
 #UseDNS no
 #PidFile /run/sshd.pid
 MaxStartups 2

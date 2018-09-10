@@ -7,6 +7,7 @@ RUN apk -U upgrade
 RUN apk add --update --no-cache \
             ansible \
             py-mysqldb \
+            py2-pip \
             bash \
             busybox-suid \
             libcap \
@@ -49,7 +50,7 @@ RUN apk add --update --no-cache \
 
 # Create a flightdeck user with the home directory.
 RUN addgroup -g 1000 flightdeck && \
-    adduser -u 1000 -g flightdeck -G cron -D -h /var/www -s /bin/bash flightdeck && \
+    adduser -u 1000 -G flightdeck,cron -D -h /var/www -s /bin/bash flightdeck && \
     mkdir -p -m 774 /var/www && \
     chown flightdeck:flightdeck -R /var/www
 
@@ -82,6 +83,9 @@ RUN apk add --update build-base libffi-dev ruby ruby-dev \
         && gem install sass compass sass-globbing --no-ri --no-rdoc \
         && apk del build-base libffi-dev ruby-dev \
         && rm -rf /var/cache/apk/*
+
+# Install passlib and aws cli from pip as apk versions are in testing.
+RUN pip install passlib awscli
 
 # Copy PHP configuration files.
 COPY php.ini /etc/php5/
