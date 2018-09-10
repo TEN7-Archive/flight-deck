@@ -58,7 +58,8 @@ RUN apk add --update --no-cache \
 
 # Create a flightdeck user with the home directory.
 RUN addgroup -g 1000 flightdeck && \
-    adduser -u 1000 -G flightdeck,cron -D -h /var/www -s /bin/bash flightdeck && \
+    adduser -u 1000 -G flightdeck -D -h /var/www -s /bin/bash flightdeck && \
+    addgroup flightdeck cron &&  \
     mkdir -p -m 774 /var/www && \
     chown flightdeck:flightdeck -R /var/www
 
