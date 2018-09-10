@@ -13,3 +13,6 @@ chmod go-w /var/www
 
 # Ensure the login user is not blocked.
 sed -i s/"flightdeck:!"/"flightdeck:*"/g /etc/shadow
+
+# Generate the host keys. If they already exist, this command does nothing.
+ssh-keygen -A

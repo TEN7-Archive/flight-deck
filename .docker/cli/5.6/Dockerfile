@@ -101,9 +101,6 @@ COPY aliases.drushrc.php /etc/drush/
 COPY supervisord.conf  /etc/supervisord.conf
 COPY sshd_config  /etc/ssh/sshd_config
 
-# Generate the host keys
-RUN ssh-keygen -A
-
 # Copy various key scripts to a directory in $PATH.
 COPY docker-entrypoint.sh /usr/local/bin/
 COPY vim.sh /usr/local/bin/vim
