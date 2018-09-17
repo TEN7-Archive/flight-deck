@@ -7,6 +7,7 @@ TEN7 Flight Deck v2.4.0   201X-XX-XX
 * Added the ability to load container sensitive configuration (secrets) from files at $SECRETS_DIR/VAR_NAME
 * Added default Ansible hosts file with localhost.
 * Added default Ansible configuration file (sorry, cows!).
+* Fixed bug where T7_SITE_ENVIRONMENT was not respected in Apache
 
 TEN7 Flight Deck v2.2.2   2018-07-30
 ====================================

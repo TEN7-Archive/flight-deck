@@ -125,6 +125,7 @@ WORKDIR /var/www
 
 # Copy the user bashrc file.
 COPY bashrc-user /var/www/.bashrc
+COPY bashrc-user /var/www/.bash_profile
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["/usr/bin/supervisord"]
