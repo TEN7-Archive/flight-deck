@@ -44,6 +44,7 @@ RUN apk add --update --no-cache \
             php5-sockets \
             php5-xdebug \
             php5-xml \
+            php5-xmlreader \
             php5-zlib \
             mariadb-client \
             rsync \
