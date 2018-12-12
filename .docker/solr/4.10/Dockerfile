@@ -95,6 +95,10 @@ RUN chmod a+x -R /docker-entrypoint-init.d
 # Change the default ownership of the example Solr directory.
 RUN chown -R solr:solr /opt/solr/example/solr
 
+# Copy the Ansible configuration files
+COPY ansible-hosts /etc/ansible/hosts
+COPY ansible.cfg /etc/ansible/ansible.cfg
+
 EXPOSE 8983
 WORKDIR /opt/solr
 USER $SOLR_USER

@@ -36,6 +36,10 @@ RUN chmod a+x -R /docker-entrypoint-init.d
 # Copy the root bashrc file.
 COPY bashrc-root /root/.bashrc
 
+# Copy the Ansible configuration files
+COPY ansible-hosts /etc/ansible/hosts
+COPY ansible.cfg /etc/ansible/ansible.cfg
+
 # Change to the Varnish user.
 USER varnish
 

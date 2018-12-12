@@ -50,6 +50,7 @@ RUN apk add --update --no-cache \
             php7-xdebug \
             php7-exif \
             php7-xml \
+            php7-xmlreader \
             php7-xmlwriter \
             php7-zip \
             php7-zlib \
@@ -136,6 +137,10 @@ RUN chmod a+x -R /docker-entrypoint-init.d
 
 # Copy the root bashrc file.
 COPY bashrc-root /root/.bashrc
+
+# Copy the Ansible configuration files
+COPY ansible-hosts /etc/ansible/hosts
+COPY ansible.cfg /etc/ansible/ansible.cfg
 
 EXPOSE 80 443
 WORKDIR /var/www

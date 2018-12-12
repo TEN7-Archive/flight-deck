@@ -50,6 +50,10 @@ EXPOSE 3306
 # Copy the root bashrc file.
 COPY bashrc-root /root/.bashrc
 
+# Copy the Ansible configuration files
+COPY ansible-hosts /etc/ansible/hosts
+COPY ansible.cfg /etc/ansible/ansible.cfg
+
 # Switch to the mysql user.
 USER mysql
 

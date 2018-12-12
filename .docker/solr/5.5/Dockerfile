@@ -27,6 +27,10 @@ RUN chmod a+x /usr/local/bin/docker-entrypoint.sh
 COPY docker-entrypoint-init.d /docker-entrypoint-init.d
 RUN chmod a+x -R /docker-entrypoint-init.d
 
+# Copy the Ansible configuration files
+COPY ansible-hosts /etc/ansible/hosts
+COPY ansible.cfg /etc/ansible/ansible.cfg
+
 USER $SOLR_USER
 
 EXPOSE 8983

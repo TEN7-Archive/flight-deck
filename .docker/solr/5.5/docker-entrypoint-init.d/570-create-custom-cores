@@ -2,6 +2,8 @@
 set -me
 
 SCRIPT_NAME=`basename "$0"`
+SECRETS_DIR=${SECRETS_DIR:-/secrets}
+CONFIG_DIR=${CONFIG_DIR:-/config}
 
 #
 # Create Solr cores with a custom schema.
@@ -10,6 +12,18 @@ SCRIPT_NAME=`basename "$0"`
 # `$SOLR_HOME/$SOLR_CUSTOM_CORE_NAME/conf`.
 #
 
+# Get the custom core name from ConfigMap if provided.
+if [ -s "$CONFIG_DIR/SOLR_CUSTOM_CORE_NAME" ]; then
+  echo "$SCRIPT_NAME: Loading SOLR_CUSTOM_CORE_NAME from ConfigMap"
+  SOLR_CUSTOM_CORE_NAME="$(<$CONFIG_DIR/SOLR_CUSTOM_CORE_NAME)"
+fi
+
+# Get the custom core directory from ConfigMap if provided.
+if [ -s "$CONFIG_DIR/SOLR_CUSTOM_CORE_CONF_DIR" ]; then
+  echo "$SCRIPT_NAME: Loading SOLR_CUSTOM_CORE_CONF_DIR from ConfigMap"
+  SOLR_CUSTOM_CORE_CONF_DIR="$(<$CONFIG_DIR/SOLR_CUSTOM_CORE_CONF_DIR)"
+fi
+
 if [[ -z ${SOLR_CUSTOM_CORE_NAME+x} ]]; then
     echo "$SCRIPT_NAME: No SOLR_CUSTOM_CORE_NAME set; skipping custom core creation."
 elif [[ -z ${SOLR_CUSTOM_CORE_CONF_DIR+x} ]]; then
@@ -17,7 +31,15 @@ elif [[ -z ${SOLR_CUSTOM_CORE_CONF_DIR+x} ]]; then
 elif [[ ! -d $SOLR_CUSTOM_CORE_CONF_DIR ]]; then
     echo "$SCRIPT_NAME: Directory SOLR_CUSTOM_CORE_CONF_DIR does not exist. Please mount custom conf there."
 else
-    SOLR_HOME="${SOLR_HOME:-/opt/solr/server/solr}"
+    # Get the Solr Home path from ConfigMap or env.
+    if [ -s "$CONFIG_DIR/SOLR_HOME" ]; then
+      echo "$SCRIPT_NAME: Loading SOLR_HOME from ConfigMap"
+      SOLR_HOME="$(<$CONFIG_DIR/SOLR_HOME)"
+    else
+      echo "$SCRIPT_NAME: Loading SOLR_HOME from env"
+      SOLR_HOME="${SOLR_HOME:-/opt/solr/server/solr}"
+    fi
+
     CORE_DIR="${SOLR_HOME}/${SOLR_CUSTOM_CORE_NAME}"
     CORE_DATA_DIR="${SOLR_HOME}/${SOLR_CUSTOM_CORE_NAME}/data"
 

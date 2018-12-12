@@ -13,7 +13,7 @@ services:
     env_file:
       - .env
   memcached:
-    image: memcached:1.4-alpine
+    image: memcached:1.5-alpine
   pma:
     image: phpmyadmin/phpmyadmin
     environment:
@@ -37,7 +37,7 @@ services:
     ports:
       - "8003:8983"
   varnish:
-    build: varnish/4.0
+    build: varnish/4.1
     depends_on:
       - web
     env_file:
