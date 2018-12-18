@@ -1,8 +1,8 @@
-TEN7 Flight Deck v2.4.0   2018-12-11
+TEN7 Flight Deck v2.4.0   2018-12-12
 ====================================
 * Added new CLI container for cron and SSH.
 * Added global CONFIG_DIR variable, default "/config".
-* Added gloabl SECRETS_DIR variable, default "/secrets".
+* Added global SECRETS_DIR variable, default "/secrets".
 * Added the ability to load container configuration from files at $CONFIG_DIR/VAR_NAME
 * Added the ability to load container sensitive configuration (secrets) from files at $SECRETS_DIR/VAR_NAME
 * Added default Ansible hosts file with localhost.

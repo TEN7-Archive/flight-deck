@@ -58,6 +58,7 @@ RUN apk add --update --no-cache \
             rsync \
             openssh-client \
             nodejs-npm \
+            imagemagick \
     && rm -rf /tmp/* \
     && rm -rf /var/cache/apk/*
 

@@ -49,6 +49,7 @@ RUN apk add --update --no-cache \
             mariadb-client \
             rsync \
             openssh-client \
+            imagemagick \
     && rm -rf /tmp/* \
     && rm -f /var/cache/apk/*
 
