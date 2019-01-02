@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:edge
 MAINTAINER tess@ten7.com
 
 # Create a apache user with the home directory.
@@ -88,23 +88,13 @@ RUN ln -sf /dev/stdout /var/log/apache2/access.log && \
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
-# ADD https://github.com/drush-ops/drush/archive/9.5.2.tar.gz /tmp/drush.tar.gz
-# RUN mkdir -p -m 776 /usr/local/share/drush && \
-#     tar --strip-components=1 -xzf /tmp/drush.tar.gz -C /usr/local/share/drush && \
-#     cd /usr/local/share/drush && \
-#     composer install --prefer-dist --no-interaction && \
-#     chmod -R a+xr /usr/local/share/drush && \
-#     ln -sfn /usr/local/share/drush/drush /usr/local/bin/drush
-
 # Install Drupal console
 RUN curl https://drupalconsole.com/installer -L -o /usr/bin/drupal && \
     chmod 777 /usr/bin/drupal
 
-# Install sass. We uninstall build dependencies afterwards to save space.
-RUN apk add --update build-base libffi-dev ruby ruby-dev \
-        && gem install sass compass sass-globbing --no-ri --no-rdoc \
-        && apk del build-base libffi-dev ruby-dev \
-        && rm -rf /var/cache/apk/*
+RUN npm install -g sass && \
+    npm install -g --unsafe-perm node-sass && \
+    npm install -g node-sass-glob-importer
 
 # Copy the Apache configuration files.
 COPY httpd.conf /etc/apache2/httpd.conf
