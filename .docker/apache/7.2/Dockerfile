@@ -41,7 +41,6 @@ RUN apk add --update --no-cache \
             php7-pdo \
             php7-pdo_mysql \
             php7-pdo_sqlite \
-            php7-pdo_dblib \
             php7-phar \
             php7-soap \
             php7-session \
@@ -68,14 +67,21 @@ RUN setcap cap_net_bind_service=+ep /usr/sbin/httpd
 # Chown the /etc/mysql directory so we can change my.cnf settings.
 RUN mkdir -p -m 774 \
       /run/apache2 \
-      /etc/apache2/sites.d && \
+      /etc/apache2/sites.d \
+      /var/www/.drush \
+      /var/www/.drush/sites \
+      /var/www/.npm-global \
+    && \
     chown -R apache:apache \
       /etc/apache2 \
       /etc/apache2/sites.d \
       /etc/php7 \
       /run/apache2 \
       /var/log/apache2 \
-      /var/www
+      /var/www \
+      /var/www/.drush \
+      /var/www/.drush/sites \
+      /var/www/.npm-global
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/apache2/access.log && \
@@ -92,10 +98,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 RUN curl https://drupalconsole.com/installer -L -o /usr/bin/drupal && \
     chmod 777 /usr/bin/drupal
 
-RUN npm install -g sass && \
-    npm install -g --unsafe-perm node-sass && \
-    npm install -g node-sass-glob-importer
-
 # Copy the Apache configuration files.
 COPY httpd.conf /etc/apache2/httpd.conf
 COPY 000_default.conf /etc/apache2/sites.d/
@@ -108,10 +110,6 @@ RUN chown -R apache:www-data /etc/ssl/apache2
 COPY php.ini /etc/php7/
 COPY 00_opcache.ini /etc/php7/conf.d/00_opcache.ini
 COPY xdebug.ini /etc/php7/conf.d/xdebug.ini
-
-# Copy Drush configuration files.
-COPY drushrc.php /etc/drush/
-COPY aliases.drushrc.php /etc/drush/
 
 # Copy various key scripts to a directory in $PATH.
 COPY docker-entrypoint.sh /usr/local/bin/
@@ -138,7 +136,11 @@ USER apache
 
 # Install drush for the apache user.
 RUN composer global require consolidation/cgr && \
-    /var/www/.composer/vendor/bin/cgr drush/drush:^9.5.2
+    /var/www/.composer/vendor/bin/cgr drush/drush:^9.5.2 && \
+    /var/www/.composer/vendor/bin/drush core:init -y
+
+# Set the dir for global node packages to be user-local.
+RUN npm config set prefix '/var/www/.npm-global'
 
 # Copy the user bashrc file.
 COPY bashrc-user /var/www/.bashrc

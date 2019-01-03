@@ -18,6 +18,7 @@ fi
 echo "$SCRIPT_NAME: Setting APACHE_DOCROOT_DIR to $APACHE_DOCROOT_DIR"
 sed -i 's@^\s*<Directory.*@'"   <Directory \"${APACHE_DOCROOT_DIR}\">"'@' /etc/apache2/sites.d/000_default.conf
 sed -i 's@^\s*DocumentRoot.*@'"   DocumentRoot ${APACHE_DOCROOT_DIR}"'@' /etc/apache2/sites.d/000_default.conf
+sed -i 's@^# root:.*@'"  root: ${APACHE_DOCROOT_DIR}"'@' /var/www/.drush/drush.yml
 
 # Get the Apache server name from ConfigMap or env.
 if [ -s "$CONFIG_DIR/APACHE_SITE_NAME" ]; then
@@ -31,7 +32,7 @@ fi
 # Set the Apache server name.
 echo "$SCRIPT_NAME: Setting APACHE_SITE_NAME to $APACHE_SITE_NAME"
 sed -i 's@^\s*ServerName.*@'"  ServerName ${APACHE_SITE_NAME}"'@'  /etc/apache2/sites.d/000_default.conf
-
+sed -i 's@^# uri:.*@'"  uri: ${APACHE_SITE_NAME}"'@' /var/www/.drush/drush.yml
 
 # Get the Apache server alias from ConfigMap or env.
 if [ -s "$CONFIG_DIR/APACHE_SITE_ALIAS" ]; then
