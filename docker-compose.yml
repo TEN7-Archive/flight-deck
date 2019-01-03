@@ -19,7 +19,7 @@ services:
       - /var/lib/mysql
       - ./db-backups:/tmp/db-backups:cached
   memcached:
-    image: memcached:1.4-alpine
+    image: memcached:1.5-alpine
   pma:
     image: phpmyadmin/phpmyadmin
     environment:
@@ -37,7 +37,7 @@ services:
     ports:
       - "8002:8025"
   # solr:
-  #   image: ten7/flight-deck-solr:5.5
+  #   image: ten7/flight-deck-solr:6.6
   #   env_file:
   #     - .env
   #   ports:
@@ -46,7 +46,7 @@ services:
   #   # volumes:
   #   #   - ./solr-conf:/solr-conf
   # varnish:
-  #   image: ten7/flight-deck-varnish:4.0
+  #   image: ten7/flight-deck-varnish:6.0
   #   depends_on:
   #     - web
   #   env_file:
