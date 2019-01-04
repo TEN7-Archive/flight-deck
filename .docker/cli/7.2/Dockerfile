@@ -1,5 +1,12 @@
-FROM alpine:3.6
+FROM alpine:edge
 MAINTAINER tess@ten7.com
+
+# Create a flightdeck user with the home directory.
+RUN addgroup -g 1000 flightdeck && \
+    adduser -u 1000 -G flightdeck -D -h /var/www -s /bin/bash flightdeck && \
+    addgroup flightdeck cron &&  \
+    mkdir -p -m 774 /var/www && \
+    chown flightdeck:flightdeck -R /var/www
 
 # Update all the Alpine packages.
 RUN apk -U upgrade
@@ -35,7 +42,6 @@ RUN apk add --update --no-cache \
             php7-pdo \
             php7-pdo_mysql \
             php7-pdo_sqlite \
-            php7-pdo_dblib \
             php7-phar \
             php7-soap \
             php7-session \
@@ -56,21 +62,23 @@ RUN apk add --update --no-cache \
     && rm -rf /tmp/* \
     && rm -rf /var/cache/apk/*
 
-# Create a flightdeck user with the home directory.
-RUN addgroup -g 1000 flightdeck && \
-    adduser -u 1000 -G flightdeck -D -h /var/www -s /bin/bash flightdeck && \
-    addgroup flightdeck cron &&  \
-    mkdir -p -m 774 /var/www && \
-    chown flightdeck:flightdeck -R /var/www
-
 # Chown the flightdeck user directory and create needed cron directories
 RUN mkdir -p -m 774 \
       /etc/periodic \
       /etc/crontabs \
       /var/spool/cron \
-      /var/log/cron && \
+      /var/log/cron \
+      /var/www/.ssh \
+      /var/www/.drush \
+      /var/www/.drush/sites \
+      /var/www/.npm-global \
+    && \
     chown -R flightdeck:flightdeck \
-      /var/www
+      /var/www \
+      /var/www/.ssh \
+      /var/www/.drush \
+      /var/www/.drush/sites \
+      /var/www/.npm-global
 
 # Forward cron logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/cron/cron.log
@@ -78,24 +86,9 @@ RUN ln -sf /dev/stdout /var/log/cron/cron.log
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
-# Install drush
-ADD https://github.com/drush-ops/drush/archive/8.1.16.tar.gz /tmp/drush.tar.gz
-RUN mkdir -p -m 776 /usr/local/share/drush && \
-    tar --strip-components=1 -xzf /tmp/drush.tar.gz -C /usr/local/share/drush && \
-    cd /usr/local/share/drush && \
-    composer install --prefer-dist --no-interaction && \
-    chmod -R a+xr /usr/local/share/drush && \
-    ln -sfn /usr/local/share/drush/drush /usr/local/bin/drush
-
 # Install Drupal console
 RUN curl https://drupalconsole.com/installer -L -o /usr/bin/drupal && \
     chmod 777 /usr/bin/drupal
-
-# Install sass. We uninstall build dependencies afterwards to save space.
-RUN apk add --update build-base libffi-dev ruby ruby-dev \
-        && gem install sass compass sass-globbing --no-ri --no-rdoc \
-        && apk del build-base libffi-dev ruby-dev \
-        && rm -rf /var/cache/apk/*
 
 # Install passlib and aws cli from pip as apk versions are in testing.
 RUN pip install passlib awscli
@@ -105,13 +98,10 @@ COPY php.ini /etc/php7/
 COPY 00_opcache.ini /etc/php7/conf.d/00_opcache.ini
 COPY xdebug.ini /etc/php7/conf.d/xdebug.ini
 
-# Copy Drush configuration files.
-COPY drushrc.php /etc/drush/
-COPY aliases.drushrc.php /etc/drush/
-
-# Copy Supervisor configuration files.
+# Copy other configuration files.
 COPY supervisord.conf  /etc/supervisord.conf
 COPY sshd_config  /etc/ssh/sshd_config
+COPY motd.txt /etc/motd
 
 # Copy various key scripts to a directory in $PATH.
 COPY docker-entrypoint.sh /usr/local/bin/
@@ -135,9 +125,23 @@ COPY ansible.cfg /etc/ansible/ansible.cfg
 EXPOSE 22
 WORKDIR /var/www
 
+# Switch to the ssh user to do additional setup.
+USER flightdeck
+
 # Copy the user bashrc file.
-COPY bashrc-user /var/www/.bashrc
-COPY bashrc-user /var/www/.bash_profile
+COPY --chown=flightdeck:flightdeck bashrc-user /var/www/.bashrc
+COPY --chown=flightdeck:flightdeck bashrc-user /var/www/.bash_profile
+
+# Install drush for the ssh user.
+RUN composer global require consolidation/cgr && \
+    /var/www/.composer/vendor/bin/cgr drush/drush:^9.5.2 && \
+    /var/www/.composer/vendor/bin/drush core:init -y
+
+# Set the dir for global node packages to be user-local.
+RUN npm config set prefix '/var/www/.npm-global'
+
+# Switch back to root for sshd.
+USER root
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["/usr/bin/supervisord"]

@@ -8,7 +8,7 @@ services:
       - .env
     volumes:
       - ./src:/var/www/html:cached
-      - ./sync:/var/www/sync:cached
+      - ./config:/var/www/config:cached
   db:
     image: ten7/flight-deck-db
     ports:
@@ -54,7 +54,17 @@ services:
   #   ports:
   #     - "8004:6081" # HTTP Proxy
   #     - "8005:6082" # Control terminal
-  #
+
+  cli:
+    image: ten7/flight-deck-cli:latest
+    ports:
+      - "22:22"
+    env_file:
+      - .env
+    volumes:
+      - ./src:/var/www/html:cached
+      - ./config:/var/www/config:cached
+
   ## Webgrind lets you example XDebug profiling files without kcachegrind.
   #
   # webgrind:

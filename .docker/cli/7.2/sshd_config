@@ -1,4 +1,4 @@
-#	$OpenBSD: sshd_config,v 1.100 2016/08/15 12:32:04 naddy Exp $
+#	$OpenBSD: sshd_config,v 1.103 2018/04/09 20:41:22 tj Exp $
 
 # This is the sshd server system-wide configuration file.  See
 # sshd_config(5) for more information.
@@ -13,26 +13,26 @@
 Protocol 2
 
 Port 22
-
 #AddressFamily any
 #ListenAddress 0.0.0.0
 #ListenAddress ::
 
-HostKey /etc/ssh/ssh_host_rsa_key
-HostKey /etc/ssh/ssh_host_dsa_key
-HostKey /etc/ssh/ssh_host_ecdsa_key
-HostKey /etc/ssh/ssh_host_ed25519_key
+AllowUsers flightdeck
+
+#HostKey /etc/ssh/ssh_host_rsa_key
+#HostKey /etc/ssh/ssh_host_ecdsa_key
+#HostKey /etc/ssh/ssh_host_ed25519_key
 
 # Ciphers and keying
 #RekeyLimit default none
 
 # Logging
-SyslogFacility AUTH
-LogLevel INFO
+#SyslogFacility AUTH
+#LogLevel INFO
 
 # Authentication:
 
-#LoginGraceTime 1m
+#LoginGraceTime 2m
 PermitRootLogin no
 #StrictModes yes
 #MaxAuthTries 6
@@ -55,17 +55,14 @@ AuthorizedKeysFile	.ssh/authorized_keys
 # HostbasedAuthentication
 #IgnoreUserKnownHosts no
 # Don't read the user's ~/.rhosts and ~/.shosts files
-IgnoreRhosts yes
-
-RSAAuthentication yes
-PubkeyAuthentication yes
+#IgnoreRhosts yes
 
 # To disable tunneled clear text passwords, change to no here!
 PasswordAuthentication no
-PermitEmptyPasswords no
+#PermitEmptyPasswords no
 
 # Change to no to disable s/key passwords
-ChallengeResponseAuthentication no
+#ChallengeResponseAuthentication yes
 
 # Kerberos options
 #KerberosAuthentication no
@@ -86,26 +83,26 @@ ChallengeResponseAuthentication no
 # If you just want the PAM account and session checks to run without
 # PAM authentication, then enable this but set PasswordAuthentication
 # and ChallengeResponseAuthentication to 'no'.
-UsePAM yes
+#UsePAM no
 
 #AllowAgentForwarding yes
-#GatewayPorts no
-#X11Forwarding no
+# Feel free to re-enable these if your use case requires them.
+AllowTcpForwarding no
+GatewayPorts no
+X11Forwarding no
 #X11DisplayOffset 10
 #X11UseLocalhost yes
 #PermitTTY yes
 #PrintMotd yes
 #PrintLastLog yes
-TCPKeepAlive yes
-#UseLogin no
-UsePrivilegeSeparation yes
+#TCPKeepAlive yes
 #PermitUserEnvironment no
 #Compression delayed
-ClientAliveInterval 60
-ClientAliveCountMax 60
+ClientAliveInterval 300
+ClientAliveCountMax 3
 #UseDNS no
 #PidFile /run/sshd.pid
-MaxStartups 2
+#MaxStartups 10:30:100
 #PermitTunnel no
 #ChrootDirectory none
 #VersionAddendum none
@@ -118,7 +115,7 @@ Subsystem	sftp	/usr/lib/ssh/sftp-server
 
 # Example of overriding settings on a per-user basis
 #Match User anoncvs
-X11Forwarding no
-AllowTcpForwarding no
+#	X11Forwarding no
+#	AllowTcpForwarding no
 #	PermitTTY no
 #	ForceCommand cvs server
