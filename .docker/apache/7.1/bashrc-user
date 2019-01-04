@@ -1,6 +1,0 @@
-PS1="\u@flight-deck-web:\w\$ "
-
-APACHE_DOCROOT_DIR="${APACHE_DOCROOT_DIR:-/var/www/html}"
-cd $APACHE_DOCROOT_DIR
-
-export T7_SITE_ENVIRONMENT="${T7_SITE_ENVIRONMENT:-docker}"
