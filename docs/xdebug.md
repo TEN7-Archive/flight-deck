@@ -83,3 +83,15 @@ To enable Xdebug logging to STDOUT:
 4. Use `docker-compose logs` to view the container logs.
 
 When interacting with the **web** container using `docker-compose exec`, you may see the output of Xdebug in your terminal window. This is normal, if annoying, when `PHP_XDEBUG_STDOUT_LOGS` is enabled.
+
+## Shell alias for loopback
+
+You may wish to set up an alias for setting the loopback address. This command differs slightly on macOS and Linux:
+
+```shell
+# For macOS
+alias docdebug='sudo ifconfig lo0 alias 10.254.254.254'
+
+# For Linux
+alias docdebug='sudo ip -4 addr add 10.254.254.254/32 dev lo'
+```
