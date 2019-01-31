@@ -142,6 +142,9 @@ RUN composer global require consolidation/cgr && \
 # Set the dir for global node packages to be user-local.
 RUN npm config set prefix '/var/www/.npm-global'
 
+# Install dart-sass globally.
+RUN npm install -g sass
+
 # Copy the user bashrc file.
 COPY bashrc-user /var/www/.bashrc
 
