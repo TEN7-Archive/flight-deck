@@ -13,7 +13,7 @@ fi
 # Change the Max Allowed Packet size, if set.
 if [ -n "$MYSQL_MAX_ALLOWED_PACKET" ]; then
     echo "$SCRIPT_NAME: Setting max_allowed_packet to $MYSQL_MAX_ALLOWED_PACKET"
-    sed -i 's/^max_allowed_packet.*/'"max_allowed_packet = ${MYSQL_MAX_ALLOWED_PACKET}"'/' /etc/mysql/my.cnf
+    sed -i 's/^max_allowed_packet.*/'"max_allowed_packet = ${MYSQL_MAX_ALLOWED_PACKET}"'/' /etc/my.cnf.d/flight-deck.cnf
 fi
 
 # Get the max query size from ConfigMap, if provided.
@@ -25,5 +25,5 @@ fi
 # Set the max query cache size.
 if [ -n "$MYSQL_QUERY_CACHE_SIZE" ]; then
   echo "$SCRIPT_NAME: Setting query_cache_size to $MYSQL_QUERY_CACHE_SIZE"
-  sed -i 's/^query_cache_size.*/'"query_cache_size = ${MYSQL_QUERY_CACHE_SIZE}"'/' /etc/mysql/my.cnf
+  sed -i 's/^query_cache_size.*/'"query_cache_size = ${MYSQL_QUERY_CACHE_SIZE}"'/' /etc/my.cnf.d/flight-deck.cnf
 fi

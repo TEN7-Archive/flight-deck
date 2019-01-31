@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.9
 MAINTAINER tess@ten7.com
 
 # Create a flightdeck user with the home directory.
