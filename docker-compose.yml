@@ -10,6 +10,7 @@ services:
     volumes:
       - ./src:/var/www/html:cached
       - ./config:/var/www/config:cached
+      - ./db-backups:/var/www/db-backups:cached
   db:
     image: ten7/flight-deck-db
     ports:
@@ -47,7 +48,7 @@ services:
   #   # volumes:
   #   #   - ./solr-conf:/solr-conf
   # varnish:
-  #   image: ten7/flight-deck-varnish:6.0
+  #   image: ten7/flight-deck-varnish:6.1
   #   depends_on:
   #     - web
   #   env_file:
@@ -55,17 +56,16 @@ services:
   #   ports:
   #     - "8004:6081" # HTTP Proxy
   #     - "8005:6082" # Control terminal
-
-  cli:
-    image: ten7/flight-deck-cli:latest
-    ports:
-      - "22:22"
-    env_file:
-      - .env
-    volumes:
-      - ./src:/var/www/html:cached
-      - ./config:/var/www/config:cached
-
+  # cli:
+  #   image: ten7/flight-deck-cli:latest
+  #   ports:
+  #     - "22:22"
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - ./src:/var/www/html:cached
+  #     - ./config:/var/www/config:cached
+  #     - ./db-backups:/var/www/db-backups:cached
   ## Webgrind lets you example XDebug profiling files without kcachegrind.
   #
   # webgrind:
