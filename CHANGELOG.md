@@ -1,8 +1,22 @@
-TEN7 Flight Deck v2.4.0   2018-12-11
+TEN7 Flight Deck v3.0.0   2019-2-1
+====================================
+* Web and CLI containers are now PHP 7.2.
+* New, unified docker-compose.yml.
+* HTTPS support enabled by default.
+* Varnish updated to 6.1.
+* Memcache updated to 1.5.
+* Drush 9 (finally!).
+* Node 10 with user-local global installs.
+* Dart sass 1.6, replacing ruby sass.
+* Ansible updated to 2.7.
+* Updated all containers to Alpine 3.9.
+* Many updates to documentation.
+
+TEN7 Flight Deck v2.4.0   2018-12-12
 ====================================
 * Added new CLI container for cron and SSH.
 * Added global CONFIG_DIR variable, default "/config".
-* Added gloabl SECRETS_DIR variable, default "/secrets".
+* Added global SECRETS_DIR variable, default "/secrets".
 * Added the ability to load container configuration from files at $CONFIG_DIR/VAR_NAME
 * Added the ability to load container sensitive configuration (secrets) from files at $SECRETS_DIR/VAR_NAME
 * Added default Ansible hosts file with localhost.

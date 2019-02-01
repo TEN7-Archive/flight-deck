@@ -1,0 +1,28 @@
+#! /bin/bash
+set -me
+
+SCRIPT_NAME=`basename "$0"`
+SECRETS_DIR=${SECRETS_DIR:-/secrets}
+CONFIG_DIR=${CONFIG_DIR:-/config}
+
+# Get the Apache docroot path from ConfigMap or env.
+if [ -s "$CONFIG_DIR/APACHE_DOCROOT_DIR" ]; then
+  echo "$SCRIPT_NAME: Loading APACHE_DOCROOT_DIR from ConfigMap"
+  APACHE_DOCROOT_DIR="$(<$CONFIG_DIR/APACHE_DOCROOT_DIR)"
+else
+  echo "$SCRIPT_NAME: Loading APACHE_DOCROOT_DIR from env"
+  APACHE_DOCROOT_DIR="${APACHE_DOCROOT_DIR:-/var/www/html}"
+fi
+
+sed -i 's@^# root:.*@'"  root: ${APACHE_DOCROOT_DIR}"'@' /var/www/.drush/drush.yml
+
+# Get the Apache server name from ConfigMap or env.
+if [ -s "$CONFIG_DIR/APACHE_SITE_NAME" ]; then
+  echo "$SCRIPT_NAME: Loading APACHE_SITE_NAME from ConfigMap"
+  APACHE_SITE_NAME="$(<$CONFIG_DIR/APACHE_SITE_NAME)"
+else
+  echo "$SCRIPT_NAME: Loading APACHE_SITE_NAME from env"
+  APACHE_SITE_NAME="${APACHE_SITE_NAME:-docker.test}"
+fi
+
+sed -i 's@^# uri:.*@'"  uri: ${APACHE_SITE_NAME}"'@' /var/www/.drush/drush.yml

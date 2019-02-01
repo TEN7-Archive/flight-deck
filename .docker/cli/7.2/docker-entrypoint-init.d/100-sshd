@@ -1,0 +1,22 @@
+#! /bin/bash
+set -me
+
+SCRIPT_NAME=`basename "$0"`
+SECRETS_DIR=${SECRETS_DIR:-/secrets}
+CONFIG_DIR=${CONFIG_DIR:-/config}
+
+# Get the authorized keys from secrets.
+if [ -s "$SECRETS_DIR/SSH_AUTHORIZED_KEYS" ]; then
+  echo "$SCRIPT_NAME: Loading SSH_AUTHORIZED_KEYS from secrets"
+
+  rm -f /var/www/.ssh/authorized_keys
+
+  cp "$SECRETS_DIR/SSH_AUTHORIZED_KEYS" /var/www/.ssh/authorized_keys
+
+  # Set the appropriate permissions
+  chmod u=rwx,g=,o= /var/www/.ssh
+  chmod u=rw,g=,o= /var/www/.ssh/authorized_keys
+
+  # Change the ownership of ~/.ssh.
+  chown -R flightdeck:flightdeck /var/www/.ssh
+fi

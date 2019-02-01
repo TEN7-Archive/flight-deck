@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.9
 MAINTAINER tess@ten7.com
 
 # Create a mysql user with the home directory.
@@ -20,10 +20,12 @@ RUN apk add --update --no-cache \
             && rm -rf /var/cache/apk/*
 
 # Chown the /etc/mysql directory so we can change my.cnf settings.
-RUN chown -R mysql:mysql /etc/mysql
+RUN chown -R mysql:mysql /etc/mysql \
+                         /etc/my.cnf \
+                         /etc/my.cnf.d
 
 # Copy the MySQL configuration file.
-COPY my.cnf /etc/mysql/my.cnf
+COPY my.cnf.d /etc/my.cnf.d
 
 # Copy the user options file.
 COPY user-options.cnf /var/lib/mysql/.my.cnf

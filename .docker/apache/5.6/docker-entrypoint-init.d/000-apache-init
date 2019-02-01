@@ -1,7 +1,0 @@
-#! /bin/bash
-set -me
-
-SCRIPT_NAME=`basename "$0"`
-
-echo "$SCRIPT_NAME: Ensuring needed Apache directories exist."
-mkdir -p /var/www/html
