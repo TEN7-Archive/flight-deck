@@ -1,3 +1,7 @@
+TEN7 Flight Deck v3.1.0   2019-2-5
+====================================
+* Added some commonly used PHP tuning parameters to .env
+
 TEN7 Flight Deck v3.0.0   2019-2-1
 ====================================
 * Web and CLI containers are now PHP 7.2.
