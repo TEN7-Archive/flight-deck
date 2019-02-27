@@ -14,7 +14,6 @@ RUN apk -U upgrade
 # Install Apache and PHP.
 RUN apk add --update --no-cache \
             ansible \
-            py-mysqldb \
             py2-pip \
             bash \
             busybox-suid \
@@ -62,6 +61,9 @@ RUN apk add --update --no-cache \
     && rm -rf /tmp/* \
     && rm -rf /var/cache/apk/*
 
+# Install Python 3 dependencies from pip
+RUN pip3 install passlib PyMySQL
+
 # Chown the flightdeck user directory and create needed cron directories
 RUN mkdir -p -m 774 \
       /etc/periodic \
@@ -91,7 +93,7 @@ RUN curl https://drupalconsole.com/installer -L -o /usr/bin/drupal && \
     chmod 777 /usr/bin/drupal
 
 # Install passlib and aws cli from pip as apk versions are in testing.
-RUN pip install passlib awscli
+RUN pip install awscli
 
 # Copy PHP configuration files.
 COPY php.ini /etc/php7/

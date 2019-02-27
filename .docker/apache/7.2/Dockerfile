@@ -12,7 +12,6 @@ RUN apk -U upgrade
 # Install Apache and PHP.
 RUN apk add --update --no-cache \
             ansible \
-            py-mysqldb \
             bash \
             libcap \
             zlib \
@@ -60,6 +59,9 @@ RUN apk add --update --no-cache \
             imagemagick \
     && rm -rf /tmp/* \
     && rm -rf /var/cache/apk/*
+
+# Install Python 3 dependencies from pip
+RUN pip3 install passlib PyMySQL
 
 # Allow Apache to allocate ports as non-root.
 RUN setcap cap_net_bind_service=+ep /usr/sbin/httpd
