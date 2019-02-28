@@ -1,3 +1,8 @@
+TEN7 Flight Deck v3.2.0   2019-2-28
+====================================
+* Reduced size of ten7/flight-deck-web by 200MB!
+* New ten7/flight-deck-web:7.2-imagemagick container.
+
 TEN7 Flight Deck v3.1.0   2019-2-5
 ====================================
 * Added some commonly used PHP tuning parameters to .env
