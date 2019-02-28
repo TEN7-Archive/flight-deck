@@ -6,11 +6,9 @@ RUN adduser -g apache -D -h /var/www apache && \
     mkdir -p -m 774 /var/www && \
     chown apache:apache -R /var/www
 
-# Update all the Alpine packages.
-RUN apk -U upgrade
-
-# Install Apache and PHP.
-RUN apk add --update --no-cache \
+# Update and install.
+RUN apk -U upgrade && \
+    apk add --update --no-cache \
             ansible \
             bash \
             libcap \
@@ -56,9 +54,12 @@ RUN apk add --update --no-cache \
             rsync \
             openssh-client \
             nodejs-npm \
-            imagemagick \
-    && rm -rf /tmp/* \
-    && rm -rf /var/cache/apk/*
+    && \
+    rm -rf /tmp/* \
+           /var/cache/apk/* \
+           /usr/lib/python3.6/site-packages/ansible/modules/network/ \
+           /usr/lib/python3.6/site-packages/ansible/modules/cloud/ \
+           /usr/lib/python3.6/site-packages/ansible/modules/windows/
 
 # Install Python 3 dependencies from pip
 RUN pip3 install passlib PyMySQL
@@ -132,23 +133,27 @@ COPY bashrc-root /root/.bashrc
 COPY ansible-hosts /etc/ansible/hosts
 COPY ansible.cfg /etc/ansible/ansible.cfg
 
-EXPOSE 80 443
-WORKDIR /var/www
-USER apache
-
 # Install drush for the apache user.
+USER apache
 RUN composer global require consolidation/cgr && \
     /var/www/.composer/vendor/bin/cgr drush/drush:^9.5.2 && \
-    /var/www/.composer/vendor/bin/drush core:init -y
+    /var/www/.composer/vendor/bin/drush core:init -y && \
+    rm -rf /var/www/.composer/cache
 
 # Set the dir for global node packages to be user-local.
 RUN npm config set prefix '/var/www/.npm-global'
 
 # Install dart-sass globally.
-RUN npm install -g sass
+RUN npm install -g sass \
+    && \
+    rm -rf /var/www/.npm/_cacache \
+           /tmp/*
 
 # Copy the user bashrc file.
 COPY bashrc-user /var/www/.bashrc
+
+EXPOSE 80 443
+WORKDIR /var/www
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["/usr/sbin/httpd", "-D", "FOREGROUND", "-f", "/etc/apache2/httpd.conf"]
