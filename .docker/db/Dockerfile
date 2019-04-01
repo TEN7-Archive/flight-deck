@@ -27,9 +27,6 @@ RUN chown -R mysql:mysql /etc/mysql \
 # Copy the MySQL configuration file.
 COPY my.cnf.d /etc/my.cnf.d
 
-# Copy the user options file.
-COPY user-options.cnf /var/lib/mysql/.my.cnf
-
 # Copy various key scripts to a directory in $PATH.
 COPY docker-entrypoint.sh /usr/local/bin/
 COPY mysql-background-start.sh /usr/local/bin/
