@@ -1,0 +1,19 @@
+---
+mysql_root_password: "{{ lookup('env', 'MYSQL_ROOT_PASS') }}"
+mysql_databases:
+  - name: "ten7_live"
+    encoding: "latin1"
+    collation: "latin1_general_ci"
+mysql_users:
+  - name: "{{ lookup('env', 'SHELL_WEB_USER') }}"
+    host: "%"
+    password: "{{ lookup('env', 'SHELL_WEB_PASS') }}"
+    priv: "ten7_live.*:ALL"
+mysql_packages:
+  - mariadb-client
+  - mariadb-server
+  - python-mysqldb
+mysql_key_buffer_size: "256M"
+mysql_max_allowed_packet: "64M"
+mysql_table_open_cache: "256"
+mysql_query_cache_size: "0"

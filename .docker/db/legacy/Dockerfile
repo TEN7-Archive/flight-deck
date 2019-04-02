@@ -2,7 +2,8 @@ FROM alpine:3.9
 MAINTAINER tess@ten7.com
 
 # Create a mysql user with the home directory.
-RUN adduser -g mysql -D -h /var/lib/mysql mysql && \
+RUN addgroup -g 999 mysql && \
+    adduser -g mysql -D -h /home/mysql -u 999 mysql && \
     mkdir -p -m 774 /var/run/mysqld/ && \
     chown mysql:mysql -R /var/run/mysqld/
 

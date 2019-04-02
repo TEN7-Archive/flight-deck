@@ -1,0 +1,9 @@
+---
+- hosts: mysql
+  pre_tasks:
+  roles:
+    - geerlingguy.mysql
+  handlers:
+    - name: stop background mysql
+      shell: >
+        /usr/local/bin/mysql-background-stop.sh

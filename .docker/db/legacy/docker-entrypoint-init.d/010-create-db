@@ -1,0 +1,84 @@
+#! /bin/bash
+set -me
+
+SCRIPT_NAME=`basename "$0"`
+SECRETS_DIR=${SECRETS_DIR:-/secrets}
+CONFIG_DIR=${CONFIG_DIR:-/config}
+
+# Get the database name from secrets or env.
+if [ -s "$SECRETS_DIR/MYSQL_DATABASE" ]; then
+  echo "$SCRIPT_NAME: Loading MYSQL_DATABASE from secrets"
+  MYSQL_DATABASE="$(<$SECRETS_DIR/MYSQL_DATABASE)"
+else
+  echo "$SCRIPT_NAME: Loading MYSQL_DATABASE from env"
+  MYSQL_DATABASE=${MYSQL_DATABASE:-drupal}
+fi
+
+# Get the database user from secrets or env.
+if [ -s "$SECRETS_DIR/MYSQL_USER" ]; then
+  echo "$SCRIPT_NAME: Loading MYSQL_USER from secrets"
+  MYSQL_USER="$(<$SECRETS_DIR/MYSQL_USER)"
+else
+  echo "$SCRIPT_NAME: Loading MYSQL_USER from env"
+  MYSQL_USER=${MYSQL_USER:-drupal}
+fi
+
+# Get the database password from secrets or env.
+if [ -s "$SECRETS_DIR/MYSQL_PASSWORD" ]; then
+  echo "$SCRIPT_NAME: Loading MYSQL_PASSWORD from secrets"
+  MYSQL_PASSWORD="$(<$SECRETS_DIR/MYSQL_PASSWORD)"
+else
+  echo "$SCRIPT_NAME: Loading MYSQL_PASSWORD from env"
+  MYSQL_PASSWORD=${MYSQL_PASSWORD:-drupal}
+fi
+
+# Get the user remote hostnames from secrets or env.
+if [ -s "$SECRETS_DIR/MYSQL_USER_REMOTE_HOSTNAMES" ]; then
+  echo "$SCRIPT_NAME: Loading MYSQL_USER_REMOTE_HOSTNAMES from secrets"
+  MYSQL_USER_REMOTE_HOSTNAMES="$(<$SECRETS_DIR/MYSQL_USER_REMOTE_HOSTNAMES)"
+else
+  echo "$SCRIPT_NAME: Loading MYSQL_USER_REMOTE_HOSTNAMES from env"
+  MYSQL_USER_REMOTE_HOSTNAMES=${MYSQL_USER_REMOTE_HOSTNAMES:-%}
+fi
+
+if [ -d "/var/lib/mysql/$MYSQL_DATABASE" ]; then
+  echo "$SCRIPT_NAME: Database $MYSQL_DATABASE already created."
+else
+
+  # Filter out localhost and loopback from MYSQL_USER_REMOTE_HOSTNAMES.
+  MYSQL_USER_REMOTE_HOSTNAMES=${MYSQL_USER_REMOTE_HOSTNAMES//localhost/}
+  MYSQL_USER_REMOTE_HOSTNAMES=${MYSQL_USER_REMOTE_HOSTNAMES//127\.0\.0\.1/}
+
+  # Create a tempfile for our startup script.
+  SQL_INIT_FILE=$(mktemp)
+
+  # Change the owner of the tempfile so MySQL can read it.
+  chown mysql:mysql $SQL_INIT_FILE
+
+  # Write our database and user set up to the tempfile.
+  echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;" >> $SQL_INIT_FILE
+
+  for MYSQL_USER_REMOTE_HOSTNAME in $MYSQL_USER_REMOTE_HOSTNAMES; do
+    echo "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" >> $SQL_INIT_FILE
+    echo "GRANT ALL ON $MYSQL_DATABASE.* to '$MYSQL_USER'@'$MYSQL_USER_REMOTE_HOSTNAME';" >> $SQL_INIT_FILE
+  done;
+
+  # Create a localhost user with even more privileges, especially shutdown.
+  echo "CREATE USER '$MYSQL_USER'@'localhost' IDENTIFIED BY '$MYSQL_PASSWORD';" >> $SQL_INIT_FILE
+  echo "GRANT ALL ON *.* to '$MYSQL_USER'@'localhost' WITH GRANT OPTION;" >> $SQL_INIT_FILE
+
+  # Whoooosh!
+  echo "FLUSH PRIVILEGES;" >> $SQL_INIT_FILE
+
+  # Start MySQL in the background if it isn't already.
+  mysql-background-start.sh
+
+  # Run the script file.
+  echo "$SCRIPT_NAME: Initializing database $MYSQL_DATABASE"
+  mysql -u root < $SQL_INIT_FILE
+
+  # Add login to .my.cnf
+  echo "[client]" > /var/lib/mysql/.my.cnf
+  echo "user=${MYSQL_USER}" >> /var/lib/mysql/.my.cnf
+  echo "password=${MYSQL_PASSWORD}" >> /var/lib/mysql/.my.cnf
+fi

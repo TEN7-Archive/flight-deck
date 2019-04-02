@@ -1,0 +1,58 @@
+---
+- hosts: base
+  tasks:
+    - name: Create the flightdeck service user.
+      shell: >
+        adduser -g flightdeck -D -h /home/flightdeck flightdeck
+    - name: Install base utlities.
+      apk:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - "bash"
+      notify:
+        - clear apk cache
+    - name: Deploy key scripts.
+      template:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: "root"
+        group: "root"
+        mode: "u=rx,g=rx,o=rx"
+      loop:
+        - src: "templates/docker-entrypoint.sh.j2"
+          dest: "/usr/local/bin/docker-entrypoint.sh"
+        - src: "templates/motd.j2"
+          dest: "/etc/motd"
+        - src: "templates/vim.j2"
+          dest: "/usr/bin/vim"
+    - name: Write the root .bashrc file
+      copy:
+        dest: "/root/.bashrc"
+        content: |
+          PS1="\u@flight-deck-web:\w# "
+        owner: "root"
+        group: "root"
+        mode: "u=rx,g=rx,o="
+    - name: Write the service account .bashrc file
+      copy:
+        dest: "{{ item }}"
+        content: |
+          PS1="\u@flight-deck-web:\w\$ "
+          cd $HOME
+          cat /etc/motd
+        owner: "flightdeck"
+        group: "flightdeck"
+        mode: "u=rx,g=rx,o="
+      loop:
+        - "/home/flightdeck/.bashrc"
+        - "/home/flightdeck/.bash_profile"
+  handlers:
+    - name: clear apk cache
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "/tmp/*" 
+        - "/var/cache/apk/*"
