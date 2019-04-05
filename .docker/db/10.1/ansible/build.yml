@@ -1,17 +1,15 @@
 ---
 - hosts: mysql
+  roles:
+    - ten7.flightdeck_base
   tasks:
-    - name: Create the mysql service user.
-      shell: >
-        adduser -g mysql -D -h /home/mysql mysql
     - name: Install MySQL.
       apk:
         name: "{{ item }}"
         state: present
         update_cache: yes
       loop:
-        - "bash"
-        - "pwgen"
+        - "py3-mysqlclient"
         - "mariadb"
         - "mariadb-client"
       notify:
@@ -25,6 +23,7 @@
         mode: "u=rwx,g=rwx,o=r"
         recurse: yes
       loop:
+        - "/var/lib/mysql"
         - "/var/run/mysqld"
         - "/etc/mysql"
         - "/etc/my.cnf.d"
@@ -44,17 +43,16 @@
         group: "mysql"
         mode: "u=rx,g=rx,o="
       loop:
-        - src: "templates/docker-entrypoint.sh.j2"
-          dest: "/usr/local/bin/docker-entrypoint.sh"
         - src: "templates/mysql-background-start.sh.j2"
           dest: "/usr/local/bin/mysql-background-start.sh"
         - src: "templates/mysql-background-stop.sh.j2"
           dest: "/usr/local/bin/mysql-background-stop.sh"
+
   handlers:
     - name: clear apk cache
       file:
         path: "{{ item }}"
         state: absent
       loop:
-        - "/tmp/*" 
+        - "/tmp/*"
         - "/var/cache/apk/*"

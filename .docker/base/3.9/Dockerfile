@@ -10,13 +10,14 @@ RUN apk -U upgrade &&\
            /usr/lib/python3.6/site-packages/ansible/modules/cloud/ \
            /usr/lib/python3.6/site-packages/ansible/modules/windows/
 
-# Copy the Ansible configuration files.
+# Copy the Ansible configuration files
 COPY ansible-hosts /etc/ansible/hosts
 COPY ansible.cfg /etc/ansible/ansible.cfg
 COPY ansible /ansible
 
-# Run the build playbook.
-RUN ansible-playbook -i /ansible/inventories/all.ini /ansible/build.yml 
+# Run the build.
+RUN ansible-galaxy install -fr /ansible/requirements.yml && \
+    ansible-playbook -i /ansible/inventories/all.ini /ansible/build.yml
 
 # Switch to the service account.
 USER flightdeck

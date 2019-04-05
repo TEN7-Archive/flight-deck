@@ -15,15 +15,15 @@ COPY ansible-hosts /etc/ansible/hosts
 COPY ansible.cfg /etc/ansible/ansible.cfg
 COPY ansible /ansible
 
-# Run the build playbook
-RUN ansible-playbook -i /ansible/inventories/all.ini /ansible/build.yml 
+# Run the build.
+RUN ansible-galaxy install -fr /ansible/requirements.yml && \
+    ansible-playbook -i /ansible/inventories/all.ini /ansible/build.yml
 
 # Configure the runtime environment of the container.
 VOLUME /var/lib/mysql
-WORKDIR /var/lib/mysql
 EXPOSE 3306
 
-# Switch to the mysql user.
+# Switch to the service account.
 USER mysql
 
 # Set the entrypoint and default command.

@@ -1,0 +1,5 @@
+[mysqld]
+max_allowed_packet = {{ mysql_max_allowed_packet | default('64M') }}
+query_cache_size = {{ mysql_query_cache_size | default('0') }}
+key_buffer_size = {{ mysql_key_buffer_size | default('256M') }}
+table_open_cache = {{ mysql_table_open_cache | default('256') }}

@@ -1,18 +1,40 @@
 ---
-mysql_root_password: "{{ lookup('env', 'MYSQL_ROOT_PASS') }}"
+flighdeck_motd_name: DB 10.1
+
+flightdeck_groups:
+  - name: "mysql"
+
+flightdeck_users:
+  - name: "mysql"
+    group: "mysql"
+    home: "/home/mysql"
+
+flightdeck_root_prompt: '\u@flight-deck-db:\w# '
+flightdeck_user_prompt: '\u@flight-deck-db:\w$ '
+
+flightdeck_run_commands: |
+  if [ -f "/config/flight-deck.yml" ]; then
+    ansible-playbook -i /ansible/inventories/all.ini -e "@/config/flight-deck.yml" /ansible/run.yml {{ flightdeck_debug | ternary('-vvvv', '') }}
+  else
+    ansible-playbook -i /ansible/inventories/all.ini /ansible/run.yml {{ flightdeck_debug | ternary('-vvvv', '') }}
+  fi
+
+mysql_root_password: "{{ lookup('env', 'MYSQL_ROOT_PASSWORD') | default('', true) }}"
+mysql_use_random_root_password: "{{ lookup('env', 'MYSQL_RANDOM_ROOT_PASSWORD') | bool | default(false, true) }}"
+mysql_allow_remote_root: "{{ lookup('env', 'MYSQL_ALLOW_REMOTE_ROOT') | default(true, true) | bool }}"
 mysql_databases:
-  - name: "ten7_live"
+  - name: "{{ lookup('env', 'MYSQL_DATABASE') | default('drupal', true) }}"
     encoding: "latin1"
     collation: "latin1_general_ci"
 mysql_users:
-  - name: "{{ lookup('env', 'SHELL_WEB_USER') }}"
+  - name: "{{ lookup('env', 'MYSQL_USER') | default('drupal', true) }}"
     host: "%"
-    password: "{{ lookup('env', 'SHELL_WEB_PASS') }}"
-    priv: "ten7_live.*:ALL"
-mysql_packages:
-  - mariadb-client
-  - mariadb-server
-  - python-mysqldb
+    password: "{{ lookup('env', 'MYSQL_PASSWORD') | default('drupal', true) }}"
+    priv: "{{ lookup('env', 'MYSQL_DATABASE') | default('drupal', true) }}.*:ALL"
+  - name: "{{ lookup('env', 'MYSQL_USER') | default('drupal', true) }}"
+    host: "localhost"
+    password: "{{ lookup('env', 'MYSQL_PASSWORD') | default('drupal', true) }}"
+    priv: "*.*:ALL,GRANT"
 mysql_key_buffer_size: "256M"
 mysql_max_allowed_packet: "64M"
 mysql_table_open_cache: "256"
