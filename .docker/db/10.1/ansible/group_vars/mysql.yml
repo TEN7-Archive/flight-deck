@@ -13,8 +13,8 @@ flightdeck_root_prompt: '\u@flight-deck-db:\w# '
 flightdeck_user_prompt: '\u@flight-deck-db:\w$ '
 
 flightdeck_run_commands: |
-  if [ -f "/config/flight-deck.yml" ]; then
-    ansible-playbook -i /ansible/inventories/all.ini -e "@/config/flight-deck.yml" /ansible/run.yml {{ flightdeck_debug | ternary('-vvvv', '') }}
+  if [ -f "/config/flight-deck-db.yml" ]; then
+    ansible-playbook -i /ansible/inventories/all.ini -e "@/config/flight-deck-db.yml" /ansible/run.yml {{ flightdeck_debug | ternary('-vvvv', '') }}
   else
     ansible-playbook -i /ansible/inventories/all.ini /ansible/run.yml {{ flightdeck_debug | ternary('-vvvv', '') }}
   fi
