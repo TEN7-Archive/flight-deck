@@ -59,7 +59,7 @@
         login_user: "root"
         login_unix_socket: "/var/run/mysqld/mysqld.sock"
       with_items: "{{ mysql_users }}"
-      no_log: false
+      no_log: "{{ flightdeck_debug | default(false) | ternary(false, true) }}"
 
     - name: Generate a list of additional databases to create.
       set_fact:
@@ -95,7 +95,7 @@
         _random_pw: "{{ lookup('password', '/dev/null length=32 chars=ascii_letters') }}"
       when:
         - mysql_root_password != '' or mysql_use_random_root_password == true
-      no_log: true
+      no_log: "{{ flightdeck_debug | default(false) | ternary(false, true) }}"
 
     - name: Create ~/.my.cnf
       copy:
@@ -121,6 +121,7 @@
         login_unix_socket: "/var/run/mysqld/mysqld.sock"
       when:
         - mysql_root_password != ''
+      no_log: "{{ flightdeck_debug | default(false) | ternary(false, true) }}"
 
   handlers:
     - name: stop background mysql
