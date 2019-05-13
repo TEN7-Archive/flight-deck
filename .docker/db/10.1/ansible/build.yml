@@ -1,0 +1,58 @@
+---
+- hosts: mysql
+  roles:
+    - ten7.flightdeck_base
+  tasks:
+    - name: Install MySQL.
+      apk:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - "py3-mysqlclient"
+        - "mariadb"
+        - "mariadb-client"
+      notify:
+        - clear apk cache
+    - name: Ensure key directories are owned by mysql
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "mysql"
+        group: "mysql"
+        mode: "u=rwx,g=rwx,o=r"
+        recurse: yes
+      loop:
+        - "/var/lib/mysql"
+        - "/var/run/mysqld"
+        - "/etc/mysql"
+        - "/etc/my.cnf.d"
+    - name: Ensure key files are owned by mysql
+      file:
+        path: "{{ item }}"
+        state: file
+        owner: "mysql"
+        group: "mysql"
+      loop:
+        - "/etc/my.cnf"
+    - name: Deploy key scripts.
+      template:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: "mysql"
+        group: "mysql"
+        mode: "u=rx,g=rx,o="
+      loop:
+        - src: "templates/mysql-background-start.sh.j2"
+          dest: "/usr/local/bin/mysql-background-start.sh"
+        - src: "templates/mysql-background-stop.sh.j2"
+          dest: "/usr/local/bin/mysql-background-stop.sh"
+
+  handlers:
+    - name: clear apk cache
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "/tmp/*"
+        - "/var/cache/apk/*"

@@ -18,6 +18,7 @@ fi
 # Set the Varnish backend hostname.
 echo "$SCRIPT_NAME: Setting Varnish backend host to $VARNISH_BACKEND_HOST"
 sed -i 's/VARNISH_BACKEND_HOST/'"${VARNISH_BACKEND_HOST}"'/' /etc/varnish/backend.vcl
+sed -i 's/VARNISH_BACKEND_HOST/'"${VARNISH_BACKEND_HOST}"'/' /etc/varnish/acl.vcl
 
 # Get the Varnish backend port number from ConfigMap or env.
 if [ -s "$CONFIG_DIR/VARNISH_BACKEND_PORT" ]; then

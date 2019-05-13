@@ -78,6 +78,7 @@ else
   mysql -u root < $SQL_INIT_FILE
 
   # Add login to .my.cnf
-  sed -i 's@^\s*user=.*@'"user=${MYSQL_USER}"'@'  /var/lib/mysql/.my.cnf
-  sed -i 's@^\s*password=.*@'"password=${MYSQL_PASSWORD}"'@'  /var/lib/mysql/.my.cnf
+  echo "[client]" > /var/lib/mysql/.my.cnf
+  echo "user=${MYSQL_USER}" >> /var/lib/mysql/.my.cnf
+  echo "password=${MYSQL_PASSWORD}" >> /var/lib/mysql/.my.cnf
 fi

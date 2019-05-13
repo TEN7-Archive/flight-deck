@@ -8,7 +8,7 @@ echo "$SCRIPT_NAME: Beginning initialization..."
 run-parts /docker-entrypoint-init.d
 
 # Stop the background MySQL if any.
-mysql-background-stop.sh
+mysql-background-stop.sh || true
 
 echo "$SCRIPT_NAME: Initialization complete. Starting container..."
 
