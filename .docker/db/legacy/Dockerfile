@@ -1,29 +1,22 @@
 FROM alpine:3.9
 MAINTAINER tess@ten7.com
 
-# Create a mysql user with the home directory.
-RUN addgroup -g 999 mysql && \
-    adduser -g mysql -D -h /home/mysql -u 999 mysql && \
-    mkdir -p -m 774 /var/run/mysqld/ && \
-    chown mysql:mysql -R /var/run/mysqld/
-
 # Update all the Alpine packages.
-RUN apk -U upgrade
-
-# Install Apache and PHP.
-RUN apk add --update --no-cache \
-            ansible \
-            bash \
-            pwgen \
-            mariadb \
-            mariadb-client \
-            && rm -rf /tmp/* \
-            && rm -rf /var/cache/apk/*
-
-# Chown the /etc/mysql directory so we can change my.cnf settings.
-RUN chown -R mysql:mysql /etc/mysql \
-                         /etc/my.cnf \
-                         /etc/my.cnf.d
+RUN apk -U upgrade && \
+    apk add --update --no-cache \
+      ansible \
+      bash \
+      pwgen \
+      mariadb \
+      mariadb-client && \
+    rm -rf /tmp/* /var/cache/apk/* && \
+    mkdir -p -m 774 \
+      /var/run/mysqld/ && \
+    chown -R mysql:mysql \
+      /var/run/mysqld/ \
+      /etc/mysql \
+      /etc/my.cnf \
+      /etc/my.cnf.d
 
 # Copy the MySQL configuration file.
 COPY my.cnf.d /etc/my.cnf.d
@@ -33,14 +26,14 @@ COPY docker-entrypoint.sh /usr/local/bin/
 COPY mysql-background-start.sh /usr/local/bin/
 COPY mysql-background-stop.sh /usr/local/bin/
 
+# Copy the entire contents of the init.d directory.
+COPY docker-entrypoint-init.d /docker-entrypoint-init.d
+
 # Make them all executable.
 RUN chmod a+x /usr/local/bin/docker-entrypoint.sh && \
     chmod a+x /usr/local/bin/mysql-background-start.sh && \
-    chmod a+x /usr/local/bin/mysql-background-stop.sh
-
-# Copy the entire contents of the init.d directory.
-COPY docker-entrypoint-init.d /docker-entrypoint-init.d
-RUN chmod a+x -R /docker-entrypoint-init.d
+    chmod a+x /usr/local/bin/mysql-background-stop.sh && \
+    chmod a+x -R /docker-entrypoint-init.d
 
 # Configure the runtime environment of the container.
 VOLUME /var/lib/mysql
