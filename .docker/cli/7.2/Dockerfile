@@ -137,7 +137,7 @@ COPY --chown=flightdeck:flightdeck bashrc-user /var/www/.bash_profile
 
 # Install drush for the ssh user.
 RUN composer global require consolidation/cgr && \
-    /var/www/.composer/vendor/bin/cgr drush/drush:^9.5.2 && \
+    /var/www/.composer/vendor/bin/cgr drush/drush:~9.5.2 && \
     /var/www/.composer/vendor/bin/drush core:init -y
 
 # Set the dir for global node packages to be user-local.

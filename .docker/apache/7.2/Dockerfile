@@ -137,7 +137,7 @@ COPY ansible.cfg /etc/ansible/ansible.cfg
 # Install drush for the apache user.
 USER apache
 RUN composer global require consolidation/cgr && \
-    /var/www/.composer/vendor/bin/cgr drush/drush:^9.5.2 && \
+    /var/www/.composer/vendor/bin/cgr drush/drush:~9.5.2 && \
     /var/www/.composer/vendor/bin/drush core:init -y && \
     rm -rf /var/www/.composer/cache
 
