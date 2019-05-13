@@ -1,9 +1,10 @@
-TEN7 Flight Deck v3.3.2   2019-3-13
+TEN7 Flight Deck v3.3.3   2019-3-13
 ====================================
 * Various fixes for k8s.
 * Added fileinfo extension to web, cli for Drupal 8.7.
 * Fix issue with varnish purge ACL restricted to localhost.
 * New, optional mariadb 10 container with YAML-based configuration and multi-tenancy
+* Fixed Drush at 9.5.x due to sql-sync regression
 
 TEN7 Flight Deck v3.2.0   2019-2-28
 ====================================
