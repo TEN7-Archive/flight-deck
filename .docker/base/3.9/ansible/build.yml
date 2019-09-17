@@ -1,4 +1,0 @@
----
-- hosts: base
-  roles:
-    - ten7.flightdeck_base

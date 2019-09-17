@@ -1,6 +1,0 @@
-#! /bin/bash
-set -me
-
-SCRIPT_NAME=`basename "$0"`
-
-start-local-solr
