@@ -1,22 +1,19 @@
 ![Flight Deck](https://raw.githubusercontent.com/ten7/flight-deck/master/flightdeck-logo.png)
 
-# A set of Docker containers for local Drupal development.
+# A set of Docker containers for to run Drupal and Wordpress in production
 
 [![Documentation Status](https://readthedocs.org/projects/flight-deck/badge/?version=latest)](http://flight-deck.readthedocs.io/)
 
-Flight Deck is a set of Docker containers for local Drupal development. It is lightweight, simple, and Docker and Kubernetes-native, allowing you to stand up a local development environment quickly after installing Docker.
+Flight Deck is a set of Docker containers for Drupal and Wordpress. It is lightweight, simple, and Docker and Kubernetes-native, allowing you to stand up a local development environment quickly after installing Docker, or running your site in production.
 
 ## Library
 
-| Container | Service name | Tags | Public Port | Supports Drupal |
-| --------- | ------------ | ---- | ----------- | --------------- |
-| [ten7/flight-deck-web](https://hub.docker.com/r/ten7/flight-deck-web/) | web | 7.2, latest | 80, 443 | 7, 8 |
-| [ten7/flight-deck-db](https://hub.docker.com/r/ten7/flight-deck-db/) | db | latest | 3306 | all |
-| [phpmyadmin/phpmyadmin](https://hub.docker.com/r/phpmyadmin/phpmyadmin/) | pma | latest | 8001 | all |
-| [mailhog/mailhog](https://hub.docker.com/r/mailhog/mailhog/) | mailhog | latest | 8002 | all |
-| [_/memcached](https://hub.docker.com/_/memcached/) | memcached | 1.5-alpine |   | all |
-| [ten7/flight-deck-varnish](https://hub.docker.com/r/ten7/flight-deck-varnish/) | varnish | 6.6, latest | 8004, 8005 | all |
-| [ten7/flight-deck-solr](https://hub.docker.com/r/ten7/flight-deck-solr/) | solr | 6.6, latest | 8003 | 7, 8 |
+| Container | Provides |
+| --------- | ------------ |
+| [ten7/flight-deck-web](https://hub.docker.com/r/ten7/flight-deck-web/) | Apache and PHP |
+| [ten7/flight-deck-db](https://hub.docker.com/r/ten7/flight-deck-db/) | A MySQL compatible databse |
+| [ten7/flight-deck-varnish](https://hub.docker.com/r/ten7/flight-deck-varnish/) | HTTP caching |
+| [ten7/flight-deck-solr](https://hub.docker.com/r/ten7/flight-deck-solr/) | Custom search |
 
 ## Deployment on Kubernetes
 
@@ -30,6 +27,12 @@ This repository no longer houses the Flight Deck container source. Instead, it's
 * https://github.com/ten7/flight-deck-db
 * https://github.com/ten7/flight-deck-varnish
 * https://github.com/ten7/flight-deck-solr
+
+## How can I deploy my site with Flight Deck?
+
+The best practice is to "bake in" you site code into the container. That way, the container itself has all the immutable code, without the need to use NFS or locally attached volumes. 
+
+We have an example Dockerfile on the [ten7/flight-deck-drupal](https://github.com/ten7/flight-deck-drupal) repo.
 
 ## Support
 
