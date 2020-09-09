@@ -1,4 +1,4 @@
-![Flight Deck](https://raw.githubusercontent.com/ten7/flight-deck/master/flightdeck-logo.png)
+![Flight Deck](https://raw.githubusercontent.com/ten7/flight-deck/main/flightdeck-logo.png)
 
 # A set of Docker containers for to run Drupal and Wordpress in production
 
