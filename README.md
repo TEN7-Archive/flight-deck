@@ -1,6 +1,6 @@
 ![Flight Deck](https://raw.githubusercontent.com/ten7/flight-deck/main/flightdeck-logo.png)
 
-# A set of Docker containers for to run Drupal and Wordpress in production
+# A set of Docker containers to run Drupal and Wordpress in production
 
 [![Documentation Status](https://readthedocs.org/projects/flight-deck/badge/?version=latest)](http://flight-deck.readthedocs.io/)
 
