@@ -1,5 +1,0 @@
-# Use this directory to store Drupal 8 configuration exports.
-#
-# Add this to your settings.php to set the export directory:
-#
-# $config_directories[CONFIG_SYNC_DIRECTORY] = '../sync';
